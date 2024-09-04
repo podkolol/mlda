@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "bmstu_machinelearning"
+version = "2024.09"
+description = "Алгоритмы и структуры данных"
+authors = ["askras <askrasnikov@gmail.com>"]
+license = "CC BY 4.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+jupyterlab = "^4.2.5"
+jupyterlab-rise = "^0.42.0"
+jupytext = "^1.16.4"
+matplotlib = "^3.9.2"
+notebook = "^7.2.2"
+numpy = "^2.1.1"
+pandas = "^2.2.2"
+scikit-learn = "^1.5.1"
+seaborn = "^0.13.2"
+
+[tool.poetry.group.dev.dependencies]
+poetry-exec-plugin = "^0.3.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+#======================================================================================================================
+# Jupytext: Jupyter notebooks as Markdown documents, Julia, Python or R scripts
+# https://github.com/mwouts/jupytext
+#======================================================================================================================
+[tool.jupytext]
+#notebook_extensions = "md"
+formats = "ipynb,md"
