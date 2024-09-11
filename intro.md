@@ -75,7 +75,7 @@ jupyter:
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-## Необходимое прогрммное обеспечение
+## Необходимое программное обеспечение
 
 1. python
 2. jupyter notebook (lab)
