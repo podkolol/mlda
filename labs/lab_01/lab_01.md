@@ -204,7 +204,7 @@ score += 1
 ### Задание 5 (1 балл)
 <!-- #endregion -->
 
-```python executionInfo={"elapsed": 3, "status": "ok", "timestamp": 1694439802963, "user": {"displayName": "Sergey Korpachev", "userId": "09181340988160569540"}, "user_tz": -180} id="7d68dc80" editable=true slideshow={"slide_type": ""}
+```python executionInfo={"elapsed": 3, "status": "ok", "timestamp": 1694439802963, "user": {"displayName": "Sergey Korpachev", "userId": "09181340988160569540"}, "user_tz": -180} id="7d68dc80" slideshow={"slide_type": ""}
 # задание 5 (1 балл)
 
 def antiderivative(coefs: np.array, const: float) -> np.array:
@@ -223,7 +223,7 @@ def antiderivative(coefs: np.array, const: float) -> np.array:
     assert False, 'Не реализовано!' # Здесь должен быть ваш код
 ```
 
-```python colab={"base_uri": "https://localhost:8080/", "height": 327} executionInfo={"elapsed": 6, "status": "error", "timestamp": 1694439803375, "user": {"displayName": "Sergey Korpachev", "userId": "09181340988160569540"}, "user_tz": -180} id="41288733" outputId="9e4b86da-8361-4b6b-8b92-bbe46b371c70" slideshow={"slide_type": ""}
+```python colab={"base_uri": "https://localhost:8080/", "height": 327} executionInfo={"elapsed": 6, "status": "error", "timestamp": 1694439803375, "user": {"displayName": "Sergey Korpachev", "userId": "09181340988160569540"}, "user_tz": -180} id="41288733" outputId="9e4b86da-8361-4b6b-8b92-bbe46b371c70" editable=false slideshow={"slide_type": ""}
 %%capture
 
 coefs = np.array([4, 6, 0, 1])
