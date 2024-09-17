@@ -8,6 +8,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+ipython = "^8.27.0"
+ipympl = "^0.9.4"
 jupyterlab = "^4.2.5"
 jupyterlab-rise = "^0.42.0"
 jupytext = "^1.16.4"
@@ -17,6 +19,7 @@ numpy = "^2.1.1"
 pandas = "^2.2.2"
 scikit-learn = "^1.5.1"
 seaborn = "^0.13.2"
+
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = "^0.3.6"
