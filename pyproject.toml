@@ -19,6 +19,7 @@ numpy = "^2.1.1"
 pandas = "^2.2.2"
 scikit-learn = "^1.5.1"
 seaborn = "^0.13.2"
+tqdm = "^4.66.5"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -27,6 +28,10 @@ poetry-exec-plugin = "^0.3.6"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry-exec-plugin.commands]
+freeze = "poetry export --format requirements.txt --output requirements.txt --without-hashes"
 
 
 #======================================================================================================================
