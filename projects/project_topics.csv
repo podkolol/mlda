@@ -1,0 +1,25 @@
+Вариант,Тип задачи,Название,Датасет
+1,Классификация, Bank Marketing ,https://archive.ics.uci.edu/dataset/222
+2,Классификация,Wine Quality,https://archive.ics.uci.edu/dataset/186
+3,Классификация,Mushroom,https://archive.ics.uci.edu/dataset/73
+4,Классификация,SMS Spam Collection,https://archive.ics.uci.edu/dataset/228
+5,Классификация,Chronic Kidney Disease,https://archive.ics.uci.edu/dataset/336
+6,Классификация,Default of Credit Card Clients,https://archive.ics.uci.edu/dataset/350
+7,Классификация, Taiwanese Bankruptcy Prediction ,https://archive.ics.uci.edu/dataset/572
+8,Классификация,Spambase Data Set,https://archive.ics.uci.edu/dataset/94
+9,Классификация,Car Evaluation,https://archive.ics.uci.edu/dataset/19
+10,Классификация,Phishing Websites,https://archive.ics.uci.edu/dataset/327
+11,Регрессия, Auction Verification ,https://archive.ics.uci.edu/dataset/713
+12,Регрессия,Servo Data Set,https://archive.ics.uci.edu/dataset/87
+13,Регрессия,Forest Fires Data Set,https://archive.ics.uci.edu/dataset/162
+14,Регрессия,Abalone,https://archive.ics.uci.edu/dataset/1
+15,Регрессия,Air Quality,https://archive.ics.uci.edu/dataset/360
+16,Регрессия,Appliances Energy Prediction,https://archive.ics.uci.edu/dataset/374
+17,Регрессия,Seoul Bike Sharing Demand,https://archive.ics.uci.edu/dataset/560
+18,Регрессия,Apartment for Rent Classified,https://archive.ics.uci.edu/dataset/555
+19,Регрессия,Traffic Flow Forecasting,https://archive.ics.uci.edu/dataset/608
+20,Регрессия,Facebook Comment Volume,https://archive.ics.uci.edu/dataset/363
+21,Кластеризация,Human Activity Recognition Using Smartphones,https://archive.ics.uci.edu/dataset/240
+22,Кластеризация, Facebook Live Sellers in Thailand ,https://archive.ics.uci.edu/dataset/488
+23,Кластеризация, Travel Review Ratings ,https://archive.ics.uci.edu/dataset/485
+24,Кластеризация,Mex,https://archive.ics.uci.edu/dataset/500
