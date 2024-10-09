@@ -21,13 +21,17 @@ numpy = "^2.1.1"
 openml = "^0.14.2"
 pandas = "^2.2.2"
 pandas-datareader = "^0.10.0"
+plotly = "^5.24.1"
 scikit-learn = "^1.5.1"
 seaborn = "^0.13.2"
 tqdm = "^4.66.5"
 
-
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = "^0.3.6"
+spyder = "^6.0.1"
+spyder-line-profiler = "^0.4.0"
+spyder-notebook = "^0.6.1"
+#spyder-terminal = "^1.2.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -35,6 +39,14 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry-exec-plugin.commands]
+init = """
+export HOME=$(pwd)
+""""
+
+spyder = """
+spyder --workdir=./ --window-title bmstu_machinelearning --project ./ --conf-dir ./.config/spyder-py3
+"""
+
 freeze = "poetry export --format requirements.txt --output requirements.txt --without-hashes"
 
 jupyter = """
