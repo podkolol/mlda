@@ -53,10 +53,6 @@ plt.rc('axes', prop_cycle=(cycler('color', ['#0000aa', '#ff2020', '#50ff50', 'c'
                            cycler('linestyle', ['-', '--', ':', '-.', '--'])))
 ```
 
-```python
-
-```
-
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
 ## Где используется машинное обучение?
 - Поисковые системы (например, Google, Yandex)
