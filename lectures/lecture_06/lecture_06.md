@@ -53,6 +53,10 @@ plt.rc('axes', prop_cycle=(cycler('color', ['#0000aa', '#ff2020', '#50ff50', 'c'
                            cycler('linestyle', ['-', '--', ':', '-.', '--'])))
 ```
 
+```python
+
+```
+
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
 ## Где используется машинное обучение?
 - Поисковые системы (например, Google, Yandex)
@@ -204,7 +208,7 @@ X1, y1 = make_moons(n_samples=70, noise=0.2, random_state=8)
 # Логистическая регрессия
 from sklearn.linear_model import LogisticRegression
 
-lr = LogisticRegression(C=1.0e+1).fit(X1, y1)
+lr = LogisticRegression(C=1.0e-1).fit(X1, y1)
 plot_classifier(classifier=lr, X=X1, y=y1)
 ```
 
@@ -212,7 +216,7 @@ plot_classifier(classifier=lr, X=X1, y=y1)
 # Метод ближайших соседей
 from sklearn.neighbors import KNeighborsClassifier
 
-knn = KNeighborsClassifier(n_neighbors=3).fit(X1, y1)
+knn = KNeighborsClassifier(n_neighbors=15).fit(X1, y1)
 plot_classifier(classifier=knn, X=X1, y=y1)
 ```
 
@@ -220,7 +224,7 @@ plot_classifier(classifier=knn, X=X1, y=y1)
 # Метод опорных векторов
 from sklearn.svm import SVC
 
-svm = SVC(kernel='rbf', gamma=2, probability=True).fit(X1, y1)
+svm = SVC(kernel='rbf', gamma=12, probability=True).fit(X1, y1)
 plot_classifier(classifier=svm, X=X1, y=y1)
 ```
 
@@ -360,7 +364,7 @@ X3, y3 = make_blobs(
 # Кластеризация методом k-средних
 from sklearn.cluster import KMeans
 
-kmeans =  KMeans(n_clusters=3, random_state=42).fit(X3)
+kmeans =  KMeans(n_clusters=11, random_state=42).fit(X3)
 plot_clusters(kmeans, X3)
 ```
 
