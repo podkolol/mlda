@@ -39,9 +39,6 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry-exec-plugin.commands]
-init = """
-export HOME=$(pwd)
-""""
 
 spyder = """
 spyder --workdir=./ --window-title bmstu_machinelearning --project ./ --conf-dir ./.config/spyder-py3
