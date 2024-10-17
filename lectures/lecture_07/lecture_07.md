@@ -168,7 +168,11 @@ $B = \begin{pmatrix}
 
 $AB = 2*1+4*2+6*3 = 28$
 
-$BA =$ **невозжмоно**
+$BA = \begin{pmatrix}
+  2 & 4 & 6 \\
+  4 & 8 & 12 \\
+  6 & 12 & 18
+\end{pmatrix}$ 
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
