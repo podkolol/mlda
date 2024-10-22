@@ -1,8 +1,0 @@
-{
-    "editorConfig": {
-        "highlightTrailingWhitespace": true,
-        "highlightWhitespace": true
-    },
-    "scrollPastEnd": true,
-    "toolbar": []
-}
