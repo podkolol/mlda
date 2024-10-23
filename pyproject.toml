@@ -25,6 +25,8 @@ plotly = "^5.24.1"
 scikit-learn = "^1.5.1"
 seaborn = "^0.13.2"
 tqdm = "^4.66.5"
+itables = "^2.2.2"
+markdown = "^3.7"
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = "^0.3.6"
