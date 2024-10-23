@@ -188,23 +188,6 @@ X_train = imp.transform(X_train)
 X_test = imp.transform(X_test)
 ```
 
-```python
-# Решение
-
-# Import imputer
-from sklearn.impute import SimpleImputer
-
-# Create object of the class and set up its parameters
-imp = SimpleImputer(missing_values=np.nan, strategy='mean') # Здесь должен быть ваш код
-
-# Calculate mean values for each feature
-imp.fit(X_train)
-
-# Replace missing values in train and test samples
-X_train = imp.transform(X_train)
-X_test = imp.transform(X_test)
-```
-
 Масштабируйте входные данные с помощью StandardScaler:
 $$
 X_{new} = \frac{X - \mu}{\sigma}
@@ -223,22 +206,6 @@ ss.fit(X_train)
 # Scale train and test samples
 X_train = ... # Здесь должен быть ваш код
 X_test = ... # Здесь должен быть ваш код
-```
-
-```python
-# Решение
-# Import StandardScaler
-from sklearn.preprocessing import StandardScaler
-
-# Create object of the class and set up its parameters
-ss = StandardScaler()
-
-# Estimate mean and sigma values
-ss.fit(X_train)
-
-# Scale train and test samples
-X_train = ss.transform(X_train)
-X_test = ss.transform(X_test)
 ```
 
 <!-- #region -->
@@ -324,19 +291,6 @@ y_test_proba_dt = ... # Здесь должен быть ваш код
 
 # Logistic Regression
 y_test_proba_logreg = ... # Здесь должен быть ваш код
-```
-
-```python
-# Решение
-
-# kNN
-y_test_proba_knn = knn.predict_proba(X_test)[:, 1] # probability of positive response
-
-# Decision Tree
-y_test_proba_dt = dt.predict_proba(X_test)[:, 1]
-
-# Logistic Regression
-y_test_proba_logreg = logreg.predict_proba(X_test)[:, 1]
 ```
 
 ```python
@@ -428,20 +382,6 @@ auc_dt = auc(fpr_dt, tpr_dt)
 
 fpr_logreg, tpr_logreg, _ = ... # Здесь должен быть ваш код
 auc_logreg = ... # Здесь должен быть ваш код
-```
-
-```python
-# Решение
-from sklearn.metrics import roc_curve, auc
-
-fpr_knn, tpr_knn, _ = roc_curve(y_test, y_test_proba_knn)
-auc_knn = auc(fpr_knn, tpr_knn)
-
-fpr_dt, tpr_dt, _ = roc_curve(y_test, y_test_proba_dt)
-auc_dt = auc(fpr_dt, tpr_dt)
-
-fpr_logreg, tpr_logreg, _ = roc_curve(y_test, y_test_proba_logreg)
-auc_logreg = auc(fpr_logreg, tpr_logreg)
 ```
 
 ```python
