@@ -27,6 +27,7 @@ seaborn = "^0.13.2"
 tqdm = "^4.66.5"
 itables = "^2.2.2"
 markdown = "^3.7"
+mlxtend = "^0.23.1"
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = "^0.3.6"
