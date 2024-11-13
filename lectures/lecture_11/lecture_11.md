@@ -19,6 +19,8 @@ jupyter:
 
 Красников Александр Сергеевич
 
+https://github.com/askras/bmstu_machinelearning/
+
 2024
 <!-- #endregion -->
 
@@ -174,7 +176,7 @@ $$
       a(x_i) \ne a(x_j)
     \right]
     \rho(x_i, x_j)
-\rightarrow \min\limits_a
+\rightarrow \max\limits_a
 $$
 
 <div style="text-align:center">
