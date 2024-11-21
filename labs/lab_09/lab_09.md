@@ -68,7 +68,7 @@ Boston Housing содержит данные, собранные Службой 
 feature_names = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT']
 
 X = pd.DataFrame(data, columns=feature_names, index=range(len(data)))
-y = pd.DataFrame(target, columns=['MEDV'], index=range(len(target)))
+y = pd.DataFrame(data, columns=['MEDV'], index=range(len(data)))
 
 X['target'] = y
 ```
