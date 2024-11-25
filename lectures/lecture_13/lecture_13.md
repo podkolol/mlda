@@ -13,7 +13,7 @@ jupyter:
 ---
 
 <!-- #region id="view-in-github" colab_type="text" editable=true slideshow={"slide_type": "slide"} -->
-# Лекция 12: Ансамблевые методы в машинном обучении
+# Лекция 13: Ансамблевые методы в машинном обучении
 
 МГТУ им. Н.Э. Баумана
 
