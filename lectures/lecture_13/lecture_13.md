@@ -243,14 +243,14 @@ plt.xticks(rotation=45)
 plt.show()
 ```
 
-<!-- #region id="HHGslph1RDWn" editable=true slideshow={"slide_type": ""} -->
+<!-- #region id="HHGslph1RDWn" editable=true slideshow={"slide_type": "subslide"} -->
 В нашем эксперименте точность ансамбля совпадает с точностью лучшей модели (SVM). Это может быть вызвано доминированием сильной модели, недостаточным разнообразием моделей, простым механизмом объединения, коррелированными ошибками или равными весами моделей.
 
 
 
 <!-- #endregion -->
 
-<!-- #region id="wvap67EDSg9Y" editable=true slideshow={"slide_type": ""} -->
+<!-- #region id="wvap67EDSg9Y" editable=true slideshow={"slide_type": "subslide"} -->
 #### Что можно сделать:
 
 1. Увеличить разнообразие моделей (разные алгоритмы, параметры, подвыборки данных, признаки).
@@ -316,7 +316,7 @@ svm.fit(X_train_scaled, y_train)
 nb.fit(X_train_scaled, y_train);
 ```
 
-<!-- #region id="lRRokOVmVKmy" editable=true slideshow={"slide_type": "slide"} -->
+<!-- #region id="lRRokOVmVKmy" editable=true slideshow={"slide_type": "subslide"} -->
 ##### Шаг 3: Оценка точности базовых моделей
 <!-- #endregion -->
 
@@ -722,11 +722,11 @@ plt.show()
 - **Сочетание с градиентным бустингом**: При объединении деревьев решений с градиентным бустингом мы получаем мощный ансамбль, который комбинирует слабые, но разнообразные базовые модели для достижения высокой точности.
 <!-- #endregion -->
 
-<!-- #region id="3dd37f45" editable=true slideshow={"slide_type": ""} -->
+<!-- #region id="3dd37f45" editable=true slideshow={"slide_type": "subslide"} -->
 ### Выводы
 <!-- #endregion -->
 
-<!-- #region id="3e6b61f2" -->
+<!-- #region id="3e6b61f2" editable=true slideshow={"slide_type": ""} -->
 Хотя градиентный бустинг теоретически может использовать любые дифференцируемые базовые модели, на практике деревья решений являются наиболее подходящим выбором из-за их гибкости, эффективности и способности приближать сложные функции. Их особенности идеально сочетаются с идеей градиентного бустинга, позволяя эффективно минимизировать функцию потерь и строить мощные предиктивные модели.
 <!-- #endregion -->
 
@@ -736,7 +736,7 @@ plt.show()
 Градиентный бустинг обычно ассоциируется с использованием деревьев решений в качестве базовых моделей (weak learners). Однако, в теории, **градиентный бустинг может использовать любые дифференцируемые модели** в качестве базовых алгоритмов. 
 <!-- #endregion -->
 
-<!-- #region editable=true slideshow={"slide_type": ""} -->
+<!-- #region editable=true slideshow={"slide_type": "subslide"} -->
 ### Градиентный бустинг с моделью линейной регрессии
 
 Мы реализуем градиентный бустинг для задачи регрессии, используя **линейную регрессию** в качестве базового алгоритма. Для демонстрации создадим синтетические данные с нелинейной зависимостью.
@@ -1031,7 +1031,7 @@ plt.show()
 ## Сравнительный анализ алгоритмов градиентного бустинга: GradientBoostingClassifier, XGBoost, LightGBM
 <!-- #endregion -->
 
-```python id="93814758" outputId="b5db26f7-f576-48d9-941d-4163265477ed" editable=true slideshow={"slide_type": ""}
+```python id="93814758" outputId="b5db26f7-f576-48d9-941d-4163265477ed" editable=true slideshow={"slide_type": "subslide"}
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1272,7 +1272,7 @@ plt.show()
 
 <!-- #endregion -->
 
-<!-- #region id="b00b882c" editable=true slideshow={"slide_type": ""} -->
+<!-- #region id="b00b882c" editable=true slideshow={"slide_type": "subslide"} -->
 ## Дополнительный ансамблевый метод: Стекинг + увеличение данных (Data Augmentation)
 
 В машинном обучении ансамблевые методы широко используются для улучшения производительности моделей за счёт объединения нескольких алгоритмов. Ранее мы рассмотрели **бэггинг** как один из таких методов. Теперь углубимся в два других подхода:
@@ -1408,7 +1408,7 @@ stacking_pred = stacking_regressor.predict(X_test)
 #### Шаг 6: Оценка производительности регрессора стекинга
 <!-- #endregion -->
 
-```python colab={"base_uri": "https://localhost:8080/"} id="28ebccd9" outputId="4c6cae4f-d17b-4a7f-a868-f9bb7030eee9" editable=true slideshow={"slide_type": ""}
+```python colab={"base_uri": "https://localhost:8080/"} id="28ebccd9" outputId="4c6cae4f-d17b-4a7f-a868-f9bb7030eee9" editable=true slideshow={"slide_type": "fragment"}
 # Оценка производительности классификатора стекинга
 mse_stacking = mean_squared_error(y_test, stacking_pred)
 print(f"Mean Squared Error (Stacking): {mse_stacking:.4f}")
@@ -1418,7 +1418,7 @@ print(f"Mean Squared Error (Stacking): {mse_stacking:.4f}")
 #### Шаг 7: Сравнение с отдельными базовыми моделями
 <!-- #endregion -->
 
-```python colab={"base_uri": "https://localhost:8080/"} id="401d8145" outputId="6121da4f-ea64-4537-eedc-02ac272da443" editable=true slideshow={"slide_type": ""}
+```python colab={"base_uri": "https://localhost:8080/"} id="401d8145" outputId="6121da4f-ea64-4537-eedc-02ac272da443" editable=true slideshow={"slide_type": "fragment"}
 # Оценка производительности базовых моделей
 for name, model in base_models:
     # Обучение на всей обучающей выборке
@@ -1435,7 +1435,7 @@ for name, model in base_models:
 Вы можете обнаружить, что стекинг (с использованием мета-модели) показывает лучшую производительность по сравнению с каждой из базовых моделей. Это происходит потому, что мета-модель учится уменьшать ошибки базовых моделей, комбинируя их предсказания наиболее эффективным образом.
 <!-- #endregion -->
 
-<!-- #region id="9d333ff5" editable=true slideshow={"slide_type": "slide"} -->
+<!-- #region id="9d333ff5" editable=true slideshow={"slide_type": "subslide"} -->
 ## Увеличение данных (Data Augmentation)
 <!-- #endregion -->
 
@@ -1584,7 +1584,7 @@ y_pred_res = model.predict(X_test_orig)
 #### Шаг 5: Оценка моделей
 <!-- #endregion -->
 
-```python id="226d0cff" outputId="bdd2c5c1-3198-41bd-9153-da4e0bed8b98" editable=true slideshow={"slide_type": "subslide"}
+```python id="226d0cff" outputId="bdd2c5c1-3198-41bd-9153-da4e0bed8b98" editable=true slideshow={"slide_type": "fragment"}
 print("Отчет классификации на тестовой выборке:")
 print(classification_report(y_test_orig, y_pred_res))
 
@@ -1597,7 +1597,7 @@ print(confusion_matrix(y_test_orig, y_pred_res))
 - **На увеличенных данных**: Модель должна лучше распознавать класс меньшинства благодаря сбалансированному набору данных.
 <!-- #endregion -->
 
-<!-- #region id="6fc385e9" editable=true slideshow={"slide_type": ""} -->
+<!-- #region id="6fc385e9" editable=true slideshow={"slide_type": "subslide"} -->
 ### Выводы
 
 **Стекинг** и **аугментация** — эффективные методы, способные значительно улучшить производительность моделей машинного обучения.
