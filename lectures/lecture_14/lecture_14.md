@@ -13,7 +13,7 @@ jupyter:
 ---
 
 <!-- #region id="view-in-github" colab_type="text" editable=true slideshow={"slide_type": "slide"} -->
-# Лекция 13: Случайный лес
+# Лекция 14: Случайный лес
 
 МГТУ им. Н.Э. Баумана
 
