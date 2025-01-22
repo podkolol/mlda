@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.4
+      jupytext_version: 1.16.6
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -141,7 +141,7 @@ planets.dropna().describe()
 
 ### Разделить, применить, объединить
 
-Канонический пример этой операции &laquo;разделить-применить-объединить&raqui;, где &laquo;применить&raquo; &mdadh; это суммирование, показан на следующем рисунке:
+Канонический пример этой операции &laquo;разделить-применить-объединить&raquo;, где &laquo;применить&raquo; &mdadh; это суммирование, показан на следующем рисунке:
 
 
 ![](./img/split-apply-combine.png)
