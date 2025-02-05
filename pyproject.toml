@@ -7,40 +7,46 @@ license = "CC BY 4.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-ipython = "^8.27.0"
-ipympl = "^0.9.4"
-jupyterlab = "^4.2.5"
-jupyterlab-rise = "^0.42.0"
-jupytext = "^1.16.4"
-matplotlib = "^3.9.2"
-mglearn = "^0.2.0"
-notebook = "^7.2.2"
-numexpr = "^2.10.1"
-numpy = "^2.1.1"
-openml = "^0.14.2"
-pandas = "^2.2.2"
-pandas-datareader = "^0.10.0"
-plotly = "^5.24.1"
-scikit-learn = "^1.5.1"
-seaborn = "^0.13.2"
-tqdm = "^4.66.5"
-itables = "^2.2.2"
-markdown = "^3.7"
-mlxtend = "^0.23.1"
-nbconvert = {extras = ["webpdf"], version = "^7.16.4"}
-xgboost = "^2.1.2"
-imbalanced-learn = "^0.12.4"
-lightgbm = "^4.5.0"
-torch = "^2.5.1"
-category-encoders = "^2.6.4"
+python = "^3.13"
+pip = "~25.0" # The PyPA recommended tool for installing Python packages
+category-encoders = "~2.6" # A package for encoding categorical variables for machine learning
+imbalanced-learn = "~0.13" # Toolbox for imbalanced dataset in machine learning
+ipympl = "~0.9" # Matplotlib Jupyter Extension
+ipython = "~8.27" # IPython: Productive Interactive Computing
+itables = "~2.2" # Pandas and Polar DataFrames as interactive DataTables
+jupyterlab = "~4.3" # JupyterLab computational environment
+jupyterlab-rise = "~0.43" # RISE: "Live" Reveal.js JupyterLab Slideshow extension
+jupytext = "~1.16" # Jupyter notebooks as Markdown documents, Julia, Python or R scripts
+keras = "~3.8" # keras
+lightgbm = "~4.5" # LightGBM Python Package
+markdown = "~3.7" # Python implementation of John Gruber's Markdown
+matplotlib = "~3.9" # Python plotting package
+mglearn = "~0.2" # Helper functions for the book Introduction to machine learning with Python
+mlxtend = "~0.23" # Python implementation of John Gruber's Markdown.
+nbconvert = {extras = ["webpdf"], version = "~7.16"} # Converting Jupyter Notebooks (.ipynb files) to other formats
+#notebook = "~7.2" # A web-based notebook environment for interactive computing
+numexpr = "~2.10" # Fast numerical expression evaluator for NumPy
+numpy = "~2.0" # Fundamental package for array computing in Python
+openml = "~0.15" # Python API for OpenML
+pandas = "~2.2" # Powerful data structures for data analysis
+pandas-datareader = "~0.10" # Data readers extracted from the pandas codebase,should be compatible with recent pandas versions
+plotly = "~6.0" # An open-source, interactive data visualization library for Python
+scikit-learn = "~1.5" # A set of python modules for machine learning and data mining
+seaborn = "~0.13" # Statistical data visualization
+#tensorflow = "~2.18" # TensorFlow is an open source machine learning framework for everyone
+#tf-nightly = "2.19.0.dev20250204" # TensorFlow is an open source machine learning framework for everyone
+torch = "~2.5" # Tensors and Dynamic neural networks in Python with strong GPU acceleration
+tqdm = "~4.66" # Fast, Extensible Progress Meter
+xgboost = "~2.1" # XGBoost Python Package
 
 [tool.poetry.group.dev.dependencies]
-poetry-exec-plugin = "^0.3.6"
-spyder = "^6.0.1"
-spyder-line-profiler = "^0.4.0"
-spyder-notebook = "^0.6.1"
-#spyder-terminal = "^1.2.2"
+poetry-exec-plugin = {git = "https://github.com/askras/poetry-exec-plugin.git"} # A plugin for poetry that allows you to execute scripts defined in your pyproject.toml
+poetry-plugin-export = "~1.9" # Poetry plugin to export the dependencies to various formats
+spyder = "~6.0" # The Python IDE that scientists and data analysts deserve
+spyder-line-profiler = "~0.4" # A plugin to run the Python line profiler
+spyder-notebook = "~0.6" # A plugin that allows you to open, edit and interact with Jupyter Notebooks inside Spyder
+spyder-terminal = "~1.2" # A plugin that allows you to have integrated system terminals inside Spyder
+
 
 [build-system]
 requires = ["poetry-core"]
@@ -53,7 +59,10 @@ spyder = """
 spyder --workdir=./ --window-title bmstu_machinelearning --project ./ --conf-dir ./.config/spyder-py3
 """
 
-freeze = "poetry export --format requirements.txt --output requirements.txt --without-hashes"
+freeze = """
+poetry lock --regenerate
+poetry export --format requirements.txt --output requirements.txt --without-hashes
+"""
 
 jupyter = """
 export JUPYTERLAB_SETTINGS_DIR=./.jupyterlab_config/user-settings
