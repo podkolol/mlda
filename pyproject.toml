@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "bmstu_machinelearning"
-version = "2024.09"
-description = "Алгоритмы и структуры данных"
+version = "2025.02"
+description = "Машинное обучение и анализ данных"
 authors = ["askras <askrasnikov@gmail.com>"]
 license = "CC BY 4.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = "3.11.11"
 pip = "~25.0" # The PyPA recommended tool for installing Python packages
 category-encoders = "~2.6" # A package for encoding categorical variables for machine learning
 imbalanced-learn = "~0.13" # Toolbox for imbalanced dataset in machine learning
@@ -33,8 +33,7 @@ pandas-datareader = "~0.10" # Data readers extracted from the pandas codebase,sh
 plotly = "~6.0" # An open-source, interactive data visualization library for Python
 scikit-learn = "~1.5" # A set of python modules for machine learning and data mining
 seaborn = "~0.13" # Statistical data visualization
-#tensorflow = "~2.18" # TensorFlow is an open source machine learning framework for everyone
-#tf-nightly = "2.19.0.dev20250204" # TensorFlow is an open source machine learning framework for everyone
+tensorflow = "~2.18" # TensorFlow is an open source machine learning framework for everyone
 torch = "~2.5" # Tensors and Dynamic neural networks in Python with strong GPU acceleration
 tqdm = "~4.66" # Fast, Extensible Progress Meter
 xgboost = "~2.1" # XGBoost Python Package
