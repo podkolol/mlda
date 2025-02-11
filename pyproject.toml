@@ -16,6 +16,7 @@ ipython = "~8.27" # IPython: Productive Interactive Computing
 itables = "~2.2" # Pandas and Polar DataFrames as interactive DataTables
 jupyterlab = "~4.3" # JupyterLab computational environment
 jupyterlab-rise = "~0.43" # RISE: "Live" Reveal.js JupyterLab Slideshow extension
+jupyter-tikz = "~0.5" # IPython Magics for rendering TeX/TikZ in Jupyter Notebooks
 jupytext = "~1.16" # Jupyter notebooks as Markdown documents, Julia, Python or R scripts
 keras = "~3.8" # keras
 lightgbm = "~4.5" # LightGBM Python Package
