@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.4
+      jupytext_version: 1.16.7
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -19,9 +19,11 @@ jupyter:
 
 МГТУ им. Н.Э. Баумана
 
+Московский политехнический университет
+
 Красников Александр Сергеевич
 
-2024
+2024 -2025
 <!-- #endregion -->
 
 ```python editable=true jupyterlab-deck={"layer": "slide"} slideshow={"slide_type": "slide"}
