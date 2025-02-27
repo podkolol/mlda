@@ -142,7 +142,7 @@ score += 1
 ```
 
 <!-- #region id="1U5HMX3Marze" -->
-### Задание 5 (1 балл)
+### Задание 4 (1 балл)
 <!-- #endregion -->
 
 ```python executionInfo={"elapsed": 5, "status": "ok", "timestamp": 1694439800023, "user": {"displayName": "Sergey Korpachev", "userId": "09181340988160569540"}, "user_tz": -180} id="cfa98502" editable=true slideshow={"slide_type": ""}
