@@ -29,7 +29,7 @@ mlxtend = "~0.23" # Python implementation of John Gruber's Markdown.
 nbconvert = {extras = ["webpdf"], version = "~7.16"} # Converting Jupyter Notebooks (.ipynb files) to other formats
 #notebook = "~7.2" # A web-based notebook environment for interactive computing
 numexpr = "~2.10" # Fast numerical expression evaluator for NumPy
-numpy = "~2.0" # Fundamental package for array computing in Python
+numpy = ">=1.23,<2.0" # Fundamental package for array computing in Python
 openml = "~0.15" # Python API for OpenML
 pandas = "~2.2" # Powerful data structures for data analysis
 pandas-datareader = "~0.10" # Data readers extracted from the pandas codebase,should be compatible with recent pandas versions
@@ -40,6 +40,9 @@ tensorflow = "~2.18" # TensorFlow is an open source machine learning framework f
 torch = "~2.5" # Tensors and Dynamic neural networks in Python with strong GPU acceleration
 tqdm = "~4.66" # Fast, Extensible Progress Meter
 xgboost = "~2.1" # XGBoost Python Package
+beautifulsoup4 = "^4.13.3"
+tensorflow-model-optimization = "^0.8.0"
+tf-keras = "^2.18.0"
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = {git = "https://github.com/askras/poetry-exec-plugin.git"} # A plugin for poetry that allows you to execute scripts defined in your pyproject.toml
@@ -69,7 +72,7 @@ poetry export --format requirements.txt --output requirements.txt --without-hash
 jupyter = """
 export JUPYTERLAB_SETTINGS_DIR=./.jupyterlab_config/user-settings
 export JUPYTERLAB_WORKSPACES_DIR=./.jupyterlab_config/workspaces
-python -m jupyter lab --allow-root --NotebookApp.token='' --NotebookApp.password=''
+python -m jupyter lab --allow-root --NotebookApp.token='' --NotebookApp.password='' --ContentsManager.allow_hidden=True --no-browser
 """
 
 #======================================================================================================================

@@ -20,6 +20,9 @@ jupyter:
 
 Жесткий дедлайн (5 баллов): 20.03.2025
 
+
+
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
