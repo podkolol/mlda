@@ -170,7 +170,7 @@ class StandardScaler:
                      [ 1.3970014 ,  1.12823657, -0.16222142]])
     """
         
-    def fit(self, X: np.array) -> float:
+    def fit(self, X: np.array) -> None:
         assert False, 'Не реализовано!' # Здесь должен быть ваш код
 
     def transform(self, X: np.array) -> np.array:
