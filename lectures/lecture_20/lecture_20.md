@@ -130,6 +130,8 @@ $$y_{j} = \sum\limits_{i = - n}^{n}K(i)x_{j + i} + b,\quad j = n + 1,...D - n.$$
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
 ![conv_1](./img/conv_1.png)
+
+
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
@@ -148,7 +150,7 @@ $$y_{j} = \sum\limits_{i = - n}^{n}K(i)x_{j + i} + b,\quad j = n + 1,...D - n.$$
 ![conv_5](./img/conv_5.png)
 <!-- #endregion -->
 
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
 ### Примеры свёрток
 
 Рассмотрим частные виды свёрток. У всех смещение $b$ будет браться равным нулю.
@@ -649,7 +651,7 @@ $$
 Пулинг (pooling) — это операция, применяемая для уменьшения пространственной размерности карты признаков (feature map) путём агрегации значений в определённых областях. Она широко используется в свёрточных нейронных сетях для уменьшения размерности данных и повышения инвариантности к небольшим сдвигам.
 <!-- #endregion -->
 
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
 #### Локальный пулинг
 Локальный пулинг применяется к фрагментам карты признаков. Основные виды пулинга:
 - **Максимизирующий пулинг (max pooling)**: Берётся максимальное значение в области.
@@ -703,7 +705,7 @@ $$
 ![Пример поточечной свёртки](./img/pointwise_convolution.jpg)
 <!-- #endregion -->
 
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
 ## Групповая свёртка (Grouped Convolution)
 Групповая свёртка разбивает входные каналы на группы и применяет независимые свёртки к каждой группе. Это позволяет уменьшить число вычислений.
 

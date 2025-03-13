@@ -13,7 +13,7 @@ jupyter:
 ---
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} toc=true -->
-# Лекция 20: Сверточные нейронные сети
+# Лекция 21: Сверточные нейронные сети
 
 МГТУ им. Н.Э. Баумана
 
