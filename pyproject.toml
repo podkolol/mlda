@@ -43,6 +43,7 @@ xgboost = "~2.1" # XGBoost Python Package
 beautifulsoup4 = "^4.13.3"
 tensorflow-model-optimization = "^0.8.0"
 tf-keras = "^2.18.0"
+opencv-python = "^4.11.0.86"
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = {git = "https://github.com/askras/poetry-exec-plugin.git"} # A plugin for poetry that allows you to execute scripts defined in your pyproject.toml
