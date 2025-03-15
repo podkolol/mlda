@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.4
+      jupytext_version: 1.16.7
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -155,6 +155,8 @@ is_mi_student_na = None # Здесь должен быть ваш код
 is_ml_student_na = None # Здесь должен быть ваш код
 is_first_time_na = None # Здесь должен быть ваш код
 blended_na = None # Здесь должен быть ваш код
+
+df_na = None # Здесь ваш код подсчитывающий общее количество пропусков в отредактированном датафрейме
 ```
 
 ```python editable=true slideshow={"slide_type": ""}
