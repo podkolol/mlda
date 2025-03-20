@@ -256,7 +256,7 @@ $$ mAP = \frac{1}{C} \sum_{c=1}^{C} AP_c$$
   3. Вычисление метрики пересечения (IoU) с остальными боксами
   4. Удаление боксов с IoU выше заданного порога (threshold)
   5. Повторение шагов 2-4 пока не обработаем все боксы
-- Применяе для каждого класса в отдельности.
+- Применяем для каждого класса в отдельности.
 
 :::
 
@@ -468,4 +468,3 @@ $\sum [(\hat{x}-x)^2 + (\hat{y}-y)^2 + (\sqrt{\hat{w}}-\sqrt{w})^2 + (\sqrt{\hat
 
 ## Литература
 1. Liu W. et al. ["SSD: Single Shot MultiBox Detector"](https://link.springer.com/chapter/10.1007/978-3-319-46448-0_2) (ECCV 2016)
-2. Официальная документация: [DeepMachineLearning.ru/SSD](https://deepmachinelearning.ru/docs/Neural-networks/Object-detection/SSD)
