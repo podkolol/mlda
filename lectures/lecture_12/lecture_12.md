@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.4
+      jupytext_version: 1.16.7
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -16,6 +16,8 @@ jupyter:
 # Лекция 12: Деревья принятия решений
 
 МГТУ им. Н.Э. Баумана
+
+Московский политехничнический университет
 
 Красников Александр Сергеевич
 
@@ -32,7 +34,7 @@ https://github.com/askras/bmstu_machinelearning/
 
 ![](./img/credit_scoring_tree.png)
 <!-- #endregion -->
-<!-- #region editable=true slideshow={"slide_type": "subslide"} -->
+<!-- #region editable=true slideshow={"slide_type": "skip"} -->
 ### Игра в гольф
 
 ![](./img/golf_tree.png)
@@ -512,7 +514,7 @@ $$= 1 - \cfrac{4}{8} \cdot 0 - \cfrac{4}{8} \cdot 0 = 1 $$
 
 **Обучение** решающего дерева:
 - Пусть для признака $j$ некоторые значения пропущены
-- При поиске лучшего предиката $\{x_j > t\}$ не используем ропуски $x_j$.
+- При поиске лучшего предиката $\{x_j > t\}$ не используем пропуски $x_j$.
 
 **Применение** решающего дерева:
 - Если пропущено значение $x_j$ для объекта, то идем и влево, и вправо.
