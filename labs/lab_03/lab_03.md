@@ -207,17 +207,17 @@ score += 0.5
 ```
 
 <!-- #region id="IlzHp3HVhLuz" editable=true slideshow={"slide_type": ""} -->
-Какие  blended-курсы для третьекурсников существуют? 
+Какие  blended-курсы для второкурсников существуют? 
 <!-- #endregion -->
 
 ```python
-blended_courses_for_third_year_students = {} # Здесь должен быть ваш код
+blended_courses_for_second_year_students = {} # Здесь должен быть ваш код
 ```
 
 ```python
 %%capture
 
-assert blended_courses_for_third_year_students == {'DevOps',
+assert blended_courses_for_second_year_students == {'DevOps',
                                                    'Введение в дифференциальную геометрию',
                                                    'Соревновательный анализ данных'}, 'Тест не пройден'
 print("Выполнено")
