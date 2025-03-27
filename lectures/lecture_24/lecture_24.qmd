@@ -1,20 +1,28 @@
 ---
-title: "Лекция 24: Эмбеддинги слов в машинном и глубоком обучении"
+title: 'Лекция 24: Эмбеддинги слов в машинном и глубоком обучении'
 subtitle: Машинное обучение и анализ данных
-author: "Красников А. С."
-date: 2025-03-27
+author: Красников А. С.
+date: '2025-03-27'
 date-modified: last-modified
 institute: МГТУ им. Н.Э. Баумана
-format: 
+format:
   revealjs:
-    #incremental: true  
     scrollable: true
     center-title-slide: false
-    # Slide TRansitions
     transition: fade
-    
     width: 1920
     height: 1080
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.16.7
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
 ---
 
 
@@ -274,10 +282,10 @@ $$ M[w_t, u] += 1 \quad \text{для каждого } u \in \text{context}(w_t)$
 |          | кошка | любит | внимание | нежность | ласку |
 |:---------|:-----:|:-----:|:--------:|:--------:|:-----:|
 | кошка    |       | 5     | 2        | 2        | 1     |
-| любит    |       | 5     | 2        | 2        | 1     |
-| внимание |       | 5     | 2        | 2        | 1     |
-| нежность |       | 5     | 2        | 2        | 1     |
-| ласку    |       | 5     | 2        | 2        | 1     |
+| любит    | 5     |       | 2        | 2        | 1     |
+| внимание | 2     | 2     |          |          |       |
+| нежность | 2     | 2     |          |          |       |
+| ласку    | 1     | 1     |          |          |       |
 
 ## Учёт расстояния между словами
 
@@ -496,6 +504,7 @@ $$p(w_{t}|w_{t-c},..w_{t-1},w_{t+1},...w_{t+c})=\frac{\exp\left(\mathbf{u}_{c}^{
 
 ## Регулярности в эмбеддингах
 
+[http://epsilon-it.utu.fi/wv_demo/](http://epsilon-it.utu.fi/wv_demo/)
 
 $$\mathbf{v}_{\text{king}}-\mathbf{v}_{\text{queen}} \approx \mathbf{v}_{\text{man}}-\mathbf{v}_{\text{woman}}$$
 $$\mathbf{v}_{\text{Paris}}-\mathbf{v}_{\text{France}} \approx \mathbf{v}_{\text{Rome}}-\mathbf{v}_{\text{Italy}}$$
@@ -648,7 +657,7 @@ $$
 ::: {.column width="60%"}
 - Расширение модели CBOW (Word2Vec)
 - Особенности:
-  - Использует **эмбеддинг параграфа** $\\mathbf{e}_p \\in \\mathbb{R}^D$
+  - Использует **эмбеддинг параграфа** $\mathbf{e}_p \in \mathbb{R}^D$
   - Комбинирует:
     1. Среднее эмбеддингов контекстных слов
     2. Эмбеддинг всего параграфа
