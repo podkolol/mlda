@@ -45,6 +45,7 @@ tensorflow-model-optimization = "^0.8.0"
 tf-keras = "^2.18.0"
 opencv-python = "^4.11.0.86"
 nltk = "^3.9.1"
+streamlit = "^1.44.1"
 
 [tool.poetry.group.dev.dependencies]
 poetry-exec-plugin = {git = "https://github.com/askras/poetry-exec-plugin.git"} # A plugin for poetry that allows you to execute scripts defined in your pyproject.toml
