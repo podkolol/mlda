@@ -1,87 +1,82 @@
-[tool.poetry]
-name = "bmstu_machinelearning"
-version = "2025.02"
+[project]
+name = "mlda"
+version = "2025.09"
 description = "Машинное обучение и анализ данных"
-authors = ["askras <askrasnikov@gmail.com>"]
-license = "CC BY 4.0"
+authors = [
+    {name = "askras",email = "askrasnikov@gmail.com"}
+]
+license = {text = "CC BY 4.0"}
 readme = "README.md"
+requires-python = "<3.14,>=3.11"
+dependencies = [
+    "category-encoders (>=2.8.1,<3.0.0)",
+    "imbalanced-learn (>=0.14.0,<0.15.0)",
+    "imutils (>=0.5.4,<0.6.0)",
+    "ipympl (>=0.9.7,<0.10.0)",
+    "ipython (>=9.5.0,<10.0.0)",
+    "itables (>=2.4.5,<3.0.0)",
+    "jupyter-tikz (>=0.5.6,<0.6.0)",
+    "jupyterlab (>=4.4.6,<5.0.0)",
+    "jupyterlab-rise (>=0.43.1,<0.44.0)",
+    "jupytext (>=1.17.3,<2.0.0)",
+    "keras (>=3.11.3,<4.0.0)",
+    "lightgbm (>=4.6.0,<5.0.0)",
+    "livelossplot (>=0.5.6,<0.6.0)",
+    "markdown (>=3.8.2,<4.0.0)",
+    "matplotlib (>=3.10.5,<4.0.0)",
+    "mglearn (>=0.2.0,<0.3.0)",
+    "mlxtend (>=0.23.4,<0.24.0)",
+    "nbconvert (>=7.16.6,<8.0.0)",
+    "notebook (>=7.4.5,<8.0.0)",
+    "numexpr (>=2.11.0,<3.0.0)",
+    "numpy (>=2.3.2,<3.0.0)",
+    "openml (>=0.15.1,<0.16.0)",
+    "pandas (>=2.3.2,<3.0.0)",
+    "pandas-datareader (>=0.10.0,<0.11.0)",
+    "plotly (>=6.3.0,<7.0.0)",
+    "scikit-learn (>=1.7.1,<2.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "tensorflow (>=2.20.0,<3.0.0)",
+    "torch (>=2.8.0,<3.0.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "xgboost (>=3.0.4,<4.0.0)",
+    "beautifulsoup4 (>=4.13.5,<5.0.0)",
+    "nltk (>=3.9.1,<4.0.0)",
+    "streamlit (>=1.49.0,<2.0.0)"
+    # tf-keras
+    # tensorflow-model-optimization
+    # opencv-python
+]
 
-[tool.poetry.dependencies]
-python = "3.11.11"
-pip = "~25.0" # The PyPA recommended tool for installing Python packages
-category-encoders = "~2.6" # A package for encoding categorical variables for machine learning
-imbalanced-learn = "~0.13" # Toolbox for imbalanced dataset in machine learning
-imutils = "~0.5" # A series of convenience functions to make basic image processing functions such as translation, rotation, resizing, skeletonization, displaying Matplotlib images, sorting contours, detecting edges, and much more easier with OpenCV and both Python 2.7 and Python 3.
-ipympl = "~0.9" # Matplotlib Jupyter Extension
-ipython = "~8.27" # IPython: Productive Interactive Computing
-itables = "~2.2" # Pandas and Polar DataFrames as interactive DataTables
-jupyterlab = "~4.3" # JupyterLab computational environment
-jupyterlab-rise = "~0.43" # RISE: "Live" Reveal.js JupyterLab Slideshow extension
-jupyter-tikz = "~0.5" # IPython Magics for rendering TeX/TikZ in Jupyter Notebooks
-jupytext = "~1.16" # Jupyter notebooks as Markdown documents, Julia, Python or R scripts
-keras = "~3.8" # keras
-lightgbm = "~4.5" # LightGBM Python Package
-livelossplot = "^0.5.6" # Live training loss plot in Jupyter Notebook for Keras, PyTorch and others.
-markdown = "~3.7" # Python implementation of John Gruber's Markdown
-matplotlib = "~3.9" # Python plotting package
-mglearn = "~0.2" # Helper functions for the book Introduction to machine learning with Python
-mlxtend = "~0.23" # Python implementation of John Gruber's Markdown.
-nbconvert = {extras = ["webpdf"], version = "~7.16"} # Converting Jupyter Notebooks (.ipynb files) to other formats
-#notebook = "~7.2" # A web-based notebook environment for interactive computing
-numexpr = "~2.10" # Fast numerical expression evaluator for NumPy
-numpy = ">=1.23,<2.0" # Fundamental package for array computing in Python
-openml = "~0.15" # Python API for OpenML
-pandas = "~2.2" # Powerful data structures for data analysis
-pandas-datareader = "~0.10" # Data readers extracted from the pandas codebase,should be compatible with recent pandas versions
-plotly = "~6.0" # An open-source, interactive data visualization library for Python
-scikit-learn = "~1.5" # A set of python modules for machine learning and data mining
-seaborn = "~0.13" # Statistical data visualization
-tensorflow = "~2.18" # TensorFlow is an open source machine learning framework for everyone
-torch = "~2.5" # Tensors and Dynamic neural networks in Python with strong GPU acceleration
-tqdm = "~4.66" # Fast, Extensible Progress Meter
-xgboost = "~2.1" # XGBoost Python Package
-beautifulsoup4 = "^4.13.3"
-tensorflow-model-optimization = "^0.8.0"
-tf-keras = "^2.18.0"
-opencv-python = "^4.11.0.86"
-nltk = "^3.9.1"
-streamlit = "^1.44.1"
 
 [tool.poetry.group.dev.dependencies]
-poetry-exec-plugin = {git = "https://github.com/askras/poetry-exec-plugin.git"} # A plugin for poetry that allows you to execute scripts defined in your pyproject.toml
-poetry-plugin-export = "~1.9" # Poetry plugin to export the dependencies to various formats
-spyder = "~6.0" # The Python IDE that scientists and data analysts deserve
-spyder-line-profiler = "~0.4" # A plugin to run the Python line profiler
-spyder-notebook = "~0.6" # A plugin that allows you to open, edit and interact with Jupyter Notebooks inside Spyder
-spyder-terminal = "~1.2" # A plugin that allows you to have integrated system terminals inside Spyder
+poetry-exec-plugin = "^1.0.1"
+poetry-plugin-export = "^1.9.0"
+poetry-plugin-shell = "^1.0.1"
 
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-[tool.poetry-exec-plugin.commands]
+[tool.poetry]
+package-mode = false
 
+
+[tool.jupytext]
+formats = "ipynb,md"
+
+
+[tool.poetry-exec-plugin.commands]
 spyder = """
 spyder --workdir=./ --window-title bmstu_machinelearning --project ./ --conf-dir ./.config/spyder-py3
 """
 
-freeze = """
-poetry lock --regenerate
-poetry export --format requirements.txt --output requirements.txt --without-hashes
-"""
+freeze = "poetry export --format requirements.txt --output requirements.txt --without-hashes"
 
 jupyter = """
 export JUPYTERLAB_SETTINGS_DIR=./.jupyterlab_config/user-settings
 export JUPYTERLAB_WORKSPACES_DIR=./.jupyterlab_config/workspaces
-python -m jupyter lab --allow-root --NotebookApp.token='' --NotebookApp.password='' --ContentsManager.allow_hidden=True --no-browser
+python -m jupyter lab --allow-root --NotebookApp.token='' --NotebookApp.password=''
 """
-
-#======================================================================================================================
-# Jupytext: Jupyter notebooks as Markdown documents, Julia, Python or R scripts
-# https://github.com/mwouts/jupytext
-#======================================================================================================================
-[tool.jupytext]
-#notebook_extensions = "md"
-formats = "ipynb,md"
