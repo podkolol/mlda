@@ -13,9 +13,7 @@ jupyter:
 ---
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-# Лекция 6: Введение в машинное обучение
-
-**Несколько полезных вещей, которые нужно знать о машинном обучении**
+# Лекция 3: Подготовка данных
 
 Машинное обучение и анализ данных
 
@@ -23,797 +21,702 @@ jupyter:
 
 Красников Александр Сергеевич
 
-2024
+2024-2025
 <!-- #endregion -->
 
-```python editable=true slideshow={"slide_type": "skip"} tags=["hide-input"]
-# Импорт необходимых библиотек
-from cycler import cycler
-from IPython.core.interactiveshell import InteractiveShell
-from IPython.display import display, HTML
+<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+## Фильтрация выбросов (Outlier Detection)
 
-import matplotlib_inline
+**Выброс (Outlier) или Аномалия (Anomaly)** — это нетипичный объект в выборке, который существенно отклоняется от основного распределения данных.
+
+**Проблема:**
+Выбросы могут существенно **исказить процесс обучения** модели, привести к неверным выводам и снизить ее точность и устойчивость.
+
+**Аналогия:**
+*   **Типичные объекты** — это основная стая птиц.
+*   **Выбросы** — это несколько птиц, летящих совсем в другом направлении.
+<!-- #endregion -->
+
+```python editable=true slideshow={"slide_type": "slide"}
 import matplotlib.pyplot as plt
-import mglearn
 import numpy as np
-import os
-import pandas as pd
-from pprint import pprint
+import random
 
-# Глобальные настройки
-%matplotlib inline
-matplotlib_inline.backend_inline.set_matplotlib_formats('pdf', 'png')
-plt.xkcd()
-plt.rcParams['image.cmap'] = "viridis"
-plt.rcParams['image.interpolation'] = "none"
-plt.rcParams['savefig.bbox'] = "tight"
-plt.rcParams['lines.linewidth'] = 1
-plt.rcParams['legend.numpoints'] = 1
-plt.rc('axes', prop_cycle=(cycler('color', ['#0000aa', '#ff2020', '#50ff50', 'c', '#fff000']) +
-                           cycler('linestyle', ['-', '--', ':', '-.', '--'])))
+# Настройка стиля
+plt.style.use('default')
+plt.rcParams['figure.figsize'] = [10, 6]
+plt.rcParams['font.size'] = 12
+
+# Создание данных - основная группа точек
+np.random.seed(42)  # для воспроизводимости результатов
+n_points = 100
+
+# Основное нормальное распределение
+x_main = np.random.normal(50, 10, n_points)
+y_main = np.random.normal(50, 10, n_points)
+
+# Создание выбросов - точек на большом расстоянии
+n_outliers = 8
+outliers_x = []
+outliers_y = []
+
+# Разные типы выбросов
+for i in range(n_outliers):
+    if i % 4 == 0:
+        # Выбросы в правом верхнем углу
+        outliers_x.append(random.uniform(85, 95))
+        outliers_y.append(random.uniform(85, 95))
+    elif i % 4 == 1:
+        # Выбросы в левом нижнем углу
+        outliers_x.append(random.uniform(5, 15))
+        outliers_y.append(random.uniform(5, 15))
+    elif i % 4 == 2:
+        # Выбросы в правом нижнем углу
+        outliers_x.append(random.uniform(85, 95))
+        outliers_y.append(random.uniform(5, 15))
+    else:
+        # Выбросы в левом верхнем углу
+        outliers_x.append(random.uniform(5, 15))
+        outliers_y.append(random.uniform(85, 95))
+
+# Создание графика
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Построение основной группы точек
+main_scatter = ax.scatter(x_main, y_main, 
+                         alpha=0.7, 
+                         s=60, 
+                         color='steelblue',
+                         edgecolors='white',
+                         linewidth=0.5,
+                         label='Типичные объекты')
+
+# Построение выбросов
+outlier_scatter = ax.scatter(outliers_x, outliers_y, 
+                            alpha=0.8, 
+                            s=80, 
+                            color='red',
+                            edgecolors='darkred',
+                            linewidth=1,
+                            marker='X',
+                            label='Выбросы (Outliers)')
+
+# Настройка внешнего вида
+ax.set_xlabel('Признак X', fontsize=14, fontweight='bold')
+ax.set_ylabel('Признак Y', fontsize=14, fontweight='bold')
+ax.set_title('Визуализация выбросов в данных\n', fontsize=16, fontweight='bold')
+
+# Добавление сетки для лучшей читаемости
+ax.grid(True, alpha=0.3, linestyle='--')
+
+# Добавление легенды
+ax.legend(loc='upper left', fontsize=12, framealpha=0.9)
+
+# Установка равных масштабов по осям
+ax.set_aspect('equal')
+ax.set_xlim(0, 100)
+ax.set_ylim(0, 100)
+
+# Добавление аннотаций для пояснения
+ax.annotate('Основное распределение\nтипичных объектов', 
+            xy=(50, 50), 
+            xytext=(30, 70),
+            arrowprops=dict(arrowstyle='->', color='gray', lw=1.5),
+            fontsize=11,
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
+
+ax.annotate('Объекты-выбросы\nдалеко от основного\nраспределения', 
+            xy=(outliers_x[0], outliers_y[0]), 
+            xytext=(70, 90),
+            arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+            fontsize=11,
+            color='darkred',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+
+# Дополнительная информация в консоли
+print(f"Всего точек: {len(x_main) + len(outliers_x)}")
+print(f"Типичные объекты: {len(x_main)}")
+print(f"Выбросы: {len(outliers_x)}")
 ```
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-## Где используется машинное обучение?
-- Поисковые системы (например, Google, Yandex)
-- Рекомендательные системы (например, Netflix)
-- Автоматический перевод (например, Google Translate, Yandex Translate)
-- Понимание речи (например, Алиса, Siri, Alexa)
-- Игры (например, AlphaGo)
-- Беспилотные автомобили
-- Персонализированная медицина
-- Прогресс во всех науках: генетика, астрономия, химия, неврология, физика, ...
-- ...
+### Причины появления выбросов
+
+1.  **Ошибки измерения или ввода данных**
+    *   *Пример:* Операционист неверно занес данные (например, рост человека 250 см вместо 175 см).
+    *   *Пример:* Сбой сенсора или оборудования.
+
+2.  **Реальные, но нетипичные события**
+    *   *Пример:* В интернет-трафике — активность ботов, а не реальных пользователей.
+    *   *Пример:* В финансах — мошеннические операции.
+    *   *Пример:* В медицине — редкое генетическое заболевание.
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-## Что такое машинное обучение?
-- Научиться выполнять задачу, основываясь на опыте (примерах) $X$, минимизируя ошибку $\mathcal{E}$
-  + Например, максимально точное распознавание человека на изображении
-- Часто мы хотим изучить функцию (модель) $f$ с некоторыми параметрами модели $\omega$, которая выдает правильный вывод $y$
+### Зачем фильтровать выбросы?
 
-$$f(\omega, X) = y$$
-$$\underset{\omega}{\operatorname{argmin}} \mathcal{E}(f(\omega, X))$$
+**Цель фильтрации:** Настроить модель так, чтобы она была **устойчивее** и лучше обрабатывала именно **типичные случаи**.
 
-- Обычно является частью *гораздо* большей системы, которая предоставляет данные $X$ в правильной форме
-  + Данные необходимо собрать, очистить, нормализовать, проверить на наличие смещений данных,...
+**Последствия игнорирования выбросов:**
+*   **Занижение/завышение** прогнозов модели.
+*   **Неадекватные** веса признаков.
+*   **Завышенная** ошибка модели.
+*   **Низкая** обобщающая способность на новых данных.
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-### Индуктивное смещение
+### Подходы к обнаружению выбросов
 
-- На практике нам приходится вносить в модель допущения: _индуктивное смещение_ $b$
-  + Как должна выглядеть модель?
-    * Имитация человеческого мозга: нейронные сети
-    * Логическое сочетание входных данных: деревья решений, линейные модели
-    * Найти похожие примеры: ближайшие соседи, SVM.
-    * Распределение вероятностей: байесовские модели
-  + Пользовательские настройки (гиперпараметры )
-    * Например, глубина дерева, сетевая архитектура
-  + Предположения о распределении данных, например, $X \sim N(\mu,\sigma)$
-- Мы можем _переносить_ знания из предыдущих задач: $f_1, f_2, f_3, ... \Longrightarrow f_{new}$
-  + Выберите правильную модель, гиперпараметры
-  + Повторное использование ранее полученных значений для параметров модели $\omega$
-- В итоге:
+**1. Одномерный анализ (Univariate)**
+*   Анализ распределения **каждого признака в отдельности**.
+*   **Методы:** Правило 3-х сигм (Z-score), межквартильный размах (IQR), визуализация (boxplot, гистограмма).
+*   **Плюсы:** Простота и скорость.
+*   **Минусы:** Не учитывает взаимосвязи между признаками.
 
-$$\underset{\omega,b}{\operatorname{argmin}} \mathcal{E}(f(\omega, b, X))$$
-<!-- #endregion -->
-
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
-### Машинное обучение против статистики
-Статистическое моделирование: две культуры [Брейман, 2001]
-- Оба направлены на прогнозирование природных явлений:
-
-<img src="./img/stat1.png" alt="ml" style="margin-left:10px; width:300px"/>
-
-- Статистика:
-  + Помогает людям понять мир
-  + Предположим, что данные генерируются в соответствии с понятной моделью.
-
-<img src="./img/stat2.png" alt="ml" style="margin-left:10px; width:300px"/>
-
-- Машинное обучение:
-  + Полностью автоматизировать задачу (частично *заменить* человека)
-  + Предположим, что процесс генерации данных неизвестен.
-  + Ориентировано на инженерное дело, меньше (слишком мало?) математической теории
-
-<img src="./img/stat3.png" alt="ml" style="margin-left:10px; width:300px"/>
-
-[Брейман, 2001] Breiman, Leo. Random Forests // Machine Learning : journal. — 2001. — Vol. 45, no. 1. — P. 5—32. — doi:10.1023/A:1010933404324
-<!-- #endregion -->
-
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
-## Типы машинного обучения
-- **Обучение с учителем** (**Supervised Learning**): изучение *модели* $f$ на основе *маркированных данных* $(X,y)$
-  + На основе новых входных данных $X$, предсказать правильный выходной сигнал $y$
-- **Обучение без учителя** (**Unsupervised Learning**): исследование структуры данных $X$ для извлечения значимой информации
-  + На основе входных данных $X$, найти, какие из них являются особенными, похожими, аномальными, ...
-- **Обучение с частичным привлечением учителя** (**Semi-Supervised Learning**): изучение модели на основе (нескольких) помеченных и (многих) непомеченных примеров. Другие названия:  полуавтоматическое обучение, частичное обучение
-  + Немаркированные примеры добавляют информацию о том, какие новые примеры, скорее всего, появятся.
-- **Обучение с подкреплением** (**Reinforcement Learning**): разработка агента, который улучшает свои характеристики на основе взаимодействия с окружающей средой
-
-Примечание: Практические системы МО могут объединять несколько типов в одной системе.
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Машинное обучение с учителем
-
-- Обучение модели на основе маркированных  данных, а затем вычислене прогноза
-- Под наблюдением: известен правильный/желаемый результат (метка)
-- Подтипы: **Классификация** (**classification**) (предсказать класс) и **Регрессия** (**regression**) (предсказать числовое значение)
-- Большинство алгоритмов обучения с учителем применимы для обоих типов задач
-<!-- #endregion -->
-
-<!-- #region editable=true slideshow={"slide_type": "slide"} -->
-<img src="./img/supervised.png" alt="ml" style="width:90%"/>
-
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-#### Классификация
-
-- Предсказать **метку класса** (категорию), дискретную и неупорядоченную
-  + Может быть **бинарной** (например, спам/не спам) или **мультиклассовой** (например, распознавание букв)
-  + Многие классификаторы могут возвращать **уверенность** (**confidence**) для каждого класса
-- Прогнозы модели строят **границу принятия решения** (**decision boundary**), разделяющую классы
-<!-- #endregion -->
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-def plot_classifier(classifier, X, y):
-    '''Построитель разделяющих поверхностей для алгоритмов классификации'''
-
-    fig, axes = plt.subplots(1, 2, figsize=(18, 6))
-
-    mglearn.tools.plot_2d_separator(
-        classifier,
-        X,
-        ax=axes[0],
-        alpha=.4,
-        cm=mglearn.cm2
-    )
-
-    scores_image = mglearn.tools.plot_2d_scores(
-        classifier,
-        X,
-        ax=axes[1],
-        alpha=.5,
-        cm=mglearn.ReBl,
-        function='predict_proba'
-    )
-
-    for ax in axes:
-        mglearn.discrete_scatter(X[:, 0], X[:, 1], y, markers='.', ax=ax)
-        ax.set_xlabel("Признак 0")
-        ax.set_ylabel("Признак 1", labelpad=0)
-        ax.tick_params(axis='y', pad=0)
-
-    cbar = plt.colorbar(scores_image, ax=axes.tolist())
-    cbar.set_label('Вероятность принадлежности классу', rotation=270, labelpad=6)
-    cbar.set_alpha(1)
-    axes[0].legend(["Класс 0", "Класс 1"], ncol=4, loc=(.1, 1.1));
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Cинтетический набор данных
-from sklearn.datasets import make_moons
-
-X1, y1 = make_moons(n_samples=70, noise=0.2, random_state=8)
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Логистическая регрессия
-from sklearn.linear_model import LogisticRegression
-
-lr = LogisticRegression(C=1.0e-1).fit(X1, y1)
-plot_classifier(classifier=lr, X=X1, y=y1)
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Метод ближайших соседей
-from sklearn.neighbors import KNeighborsClassifier
-
-knn = KNeighborsClassifier(n_neighbors=15).fit(X1, y1)
-plot_classifier(classifier=knn, X=X1, y=y1)
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Метод опорных векторов
-from sklearn.svm import SVC
-
-svm = SVC(kernel='rbf', gamma=12, probability=True).fit(X1, y1)
-plot_classifier(classifier=svm, X=X1, y=y1)
-```
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-##### Пример: классификация цветов
-Классификация цветков ириса по сортам (versicolor, setosa или virginica). 
-
-<img src="./img/iris.png" alt="ml" style="width: 80%;"/>
-
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-##### Представление: входные характеристики и метки
-
-- Можно сделать снимки и использовать их (значения пикселей) в качестве входных данных (Глубокое обучение)
-- Можно вручную определить ряд входных признаков (features), например, длину и ширину лепестков и чашелистиков
-- Каждый &laquo;пример&raquo; &mdash; это точка в (возможно, многомерном) пространстве.
-
-<img src="./img/iris_with_labels.png" alt="ml" style="float: left; width: 50%;"/>
-<img src="./img/iris3d.png" alt="ml" style="float: left; width: 35%;"/>
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-#### Регрессия
-- Прогнозирование непрерывной величины, например температуры, стоимости, времени, количества посетителей, ...
-  + Целевая переменная является числовой
-  + Некоторые алгоритмы могут возвращать **доверительный интервал** (**confidence interval**)
-- Найти связь между признаковыми переменными (**predictor variables**) и **целевой переменной** (**target variable**)
+**2. Многомерный анализ (Multivariate)**
+*   Анализ **всего вектора признаков** объекта одновременно.
+*   **Методы:** Isolation Forest, Local Outlier Factor (LOF), DBSCAN, Elliptic Envelope.
+*   **Плюсы:** Выявляет более сложные, неочевидные аномалии.
+*   **Минусы:** Вычислительно сложнее, требует большего понимания данных.
 <!-- #endregion -->
 
 ```python editable=true slideshow={"slide_type": "slide"}
-def plot_regression(regressor, X, y):
-    '''Построитель линии регрессии'''
-
-    plt.figure(figsize=(6, 6))
-
-    x = np.atleast_2d(np.linspace(X.min(), X.max(), 100)).T
-    try:
-        y_pred, sigma = regressor.predict(x, return_std=True)
-        plt.fill(np.concatenate([x, x[::-1]]),
-                 np.concatenate([y_pred - 1.9600 * sigma,
-                                 (y_pred + 1.9600 * sigma)[::-1]]),
-                 alpha=.5,
-                 fc='b',
-                 ec='None',
-                 label='95% доверительный интервал'
-                )
-    except:
-        # Для 'LinearRegression'
-        y_pred = regressor.predict(x)
-
-    plt.plot(X, y, 'o', c='#0000aa')
-    plt.plot(np.linspace(X.min(), X.max(), 100).reshape(-1, 1), y_pred, 'b-')
-
-    plt.xlabel("Признак")
-    plt.ylabel("Целевое значение")
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Cинтетический набор данных
-from mglearn.datasets import make_wave
-
-X2, y2 = make_wave(n_samples=60)
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Линейная регрессия
-from sklearn.linear_model import LinearRegression
-
-lr = LinearRegression().fit(X2, y2)
-plot_regression(regressor=lr, X=X2, y=y2)
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Байесовская ридж регрессия
-from sklearn.linear_model import BayesianRidge
-
-ridge = BayesianRidge().fit(X2, y2)
-plot_regression(regressor=ridge, X=X2, y=y2)
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Регрессия гауссовского процесса
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF
-
-gp = GaussianProcessRegressor(kernel=RBF(10, (1e-2, 1e2)), n_restarts_optimizer=9, alpha=0.1, normalize_y=True).fit(X2, y2)
-plot_regression(regressor=gp, X=X2, y=y2)
-```
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Машинное обучение без учителя
-
-- Немаркированные данные или данные с неизвестной структурой
-- Изучение структуры данных для извлечения информации
-- Много типов, рассмотрим **кластеризацию** (**clustering**) и **уменьшение размерности** (**dimensionality reduction**).
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-#### Кластеризация
-
-- Группировка данных в смысловые подгруппы (кластеры)
-- Объекты в кластере имеют определенную степень сходства (и различия с другими кластерами)
-- Пример: различать разные типы клиентов
-<!-- #endregion -->
-
-```python editable=true slideshow={"slide_type": "slide"}
-def plot_clusters(clusterer, X):
-    '''Построитель кластеров'''
-
-    y_pred = clusterer.predict(X)
-
-    plt.figure(figsize=(8, 8))
-    plt.scatter(X[:, 0], X[:, 1], c=y_pred)
-
-    plt.title("Кластеризация методом k-средних")
-    plt.xlabel("Признак 0")
-    plt.ylabel("Признак 1")
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Cинтетический набор данных
+import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.datasets import make_blobs
+from sklearn.covariance import EllipticEnvelope
+import matplotlib.patches as patches
 
-randomize = 2
-np.random.seed(randomize)
+# Настройка стиля
+plt.style.use('default')
+plt.rcParams['figure.figsize'] = [12, 5]
+plt.rcParams['font.size'] = 12
 
-X3, y3 = make_blobs(
-    n_samples=1500,
-    #cluster_std=[1.0, 1.5, 0.5],
-    centers = [[1,2], [3,4], [6,2]],
-    random_state=randomize
-)
+# Создание данных с выбросами
+np.random.seed(42)
+
+# Данные для одномерного анализа (боксплот)
+data_normal = np.random.normal(50, 10, 100)
+data_outliers = np.concatenate([data_normal, [5, 95, 100, 3, 102]])
+
+# Данные для многомерного анализа
+X, y = make_blobs(n_samples=100, centers=1, cluster_std=1.0, random_state=42)
+
+# Масштабируем и сдвигаем данные
+X[:, 0] = X[:, 0] * 10 + 70  
+X[:, 1] = X[:, 1] * 5
+
+# Добавляем выбросы
+outliers = np.array([
+    [80, 30],
+    [75, 75],
+    [25, 80],
+    [20, 20],
+    [90, 85]
+])
+X_with_outliers = np.vstack([X, outliers])
+y_with_outliers = np.concatenate([np.zeros(len(X)), np.ones(len(outliers))])  # Метки: 0 - нормальные, 1 - выбросы
+
+# Обучение Elliptic Envelope для обнаружения выбросов
+ellipse = EllipticEnvelope(contamination=0.05, random_state=42)
+ellipse.fit(X)
+xx, yy = np.meshgrid(np.linspace(0, 100, 100), np.linspace(0, 100, 100))
+Z = ellipse.decision_function(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+# Создание фигуры с двумя подграфиками
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+# Левый график: Боксплот (одномерный анализ)
+boxplot = ax1.boxplot([data_normal, data_outliers], 
+                     patch_artist=True,
+                     tick_labels=['Без выбросов', 'С выбросами'],
+                     widths=0.6)
+
+# Настройка внешнего вида боксплота
+colors = ['lightblue', 'lightcoral']
+for patch, color in zip(boxplot['boxes'], colors):
+    patch.set_facecolor(color)
+    patch.set_alpha(0.7)
+
+for whisker in boxplot['whiskers']:
+    whisker.set(color='black', linewidth=1.5, linestyle='-')
+
+for cap in boxplot['caps']:
+    cap.set(color='black', linewidth=1.5)
+
+for median in boxplot['medians']:
+    median.set(color='red', linewidth=2)
+
+for flier in boxplot['fliers']:
+    flier.set(marker='o', color='red', alpha=0.8, markersize=8)
+
+ax1.set_title('Одномерный анализ: Боксплот\n', fontsize=14, fontweight='bold')
+ax1.set_ylabel('Значение признака', fontsize=12, fontweight='bold')
+ax1.grid(True, alpha=0.3, linestyle='--')
+ax1.set_ylim(0, 110)
+
+# Добавление аннотаций для боксплота
+ax1.annotate('Выбросы', xy=(2, 102), xytext=(2.2, 105),
+            arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+            fontsize=11, color='darkred', ha='center')
+
+# Правый график: Scatter plot с эллипсом (многомерный анализ)
+# Рисуем контур эллипса
+contour = ax2.contour(xx, yy, Z, levels=[0], linewidths=2, colors='darkgreen', linestyles='--')
+
+# Рисуем нормальные точки
+normal_points = ax2.scatter(X[:, 0], X[:, 1], 
+                           alpha=0.7, 
+                           s=50, 
+                           color='green',
+                           edgecolors='darkblue',
+                           linewidth=0.5,
+                           marker='o',
+                           label='Нормальные объекты')
+
+# Рисуем выбросы
+outlier_points = ax2.scatter(outliers[:, 0], outliers[:, 1], 
+                            alpha=0.8, 
+                            s=80, 
+                            color='red',
+                            edgecolors='darkred',
+                            linewidth=1,
+                            marker='X',
+                            label='Выбросы')
+
+ax2.set_title('Многомерный анализ: Scatter plot с эллипсом\n', fontsize=14, fontweight='bold')
+ax2.set_xlabel('Признак X', fontsize=12, fontweight='bold')
+ax2.set_ylabel('Признак Y', fontsize=12, fontweight='bold')
+ax2.grid(True, alpha=0.3, linestyle='--')
+ax2.set_xlim(0, 100)
+ax2.set_ylim(0, 100)
+ax2.legend(loc='upper right', fontsize=11, framealpha=0.9)
+
+# Добавление аннотаций для scatter plot
+ax2.annotate('Область типичных\nзначений (эллипс)', 
+            xy=(50, 50), 
+            xytext=(30, 70),
+            arrowprops=dict(arrowstyle='->', color='green', lw=1.5),
+            fontsize=11,
+            color='darkgreen',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="green", alpha=0.8))
+
+ax2.annotate('Многомерные\nвыбросы', 
+            xy=(80, 30), 
+            xytext=(65, 15),
+            arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+            fontsize=11,
+            color='darkred',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", alpha=0.8))
+
+# Общий заголовок
+plt.suptitle('Сравнение методов обнаружения выбросов: одномерный vs многомерный анализ', 
+             fontsize=16, fontweight='bold', y=0.98)
+
+plt.tight_layout()
+plt.show()
+
+# Дополнительная информация в консоли
+print("Одномерный анализ (боксплот):")
+print(f"- Всего точек: {len(data_outliers)}")
+print(f"- Выбросы обнаружены: {len(data_outliers) - len(data_normal)}")
+print("\nМногомерный анализ (scatter plot):")
+print(f"- Всего точек: {len(X_with_outliers)}")
+print(f"- Выбросы обнаружены: {len(outliers)}")
+print(f"- Эллипс охватывает примерно 95% нормальных данных")
 ```
 
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Кластеризация методом k-средних
-from sklearn.cluster import KMeans
+<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+### Простые методы одномерной фильтрации
 
-kmeans =  KMeans(n_clusters=11, random_state=42).fit(X3)
-plot_clusters(kmeans, X3)
-```
+**Межквартильный размах (IQR)**
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-#### Снижение размерности
+Формула:
 
-- Данные могут быть очень многомерными и их трудно понимать, изучать, хранить, ...
-- Снижение размерности позволяет сжать данные до меньшего количества измерений, сохранив при этом большую часть информации
-- Новое представление может быть намного проще для моделирования (и визуализации)
+`Нижняя граница = Q1 - 1.5 * IQR`
+
+`Верхняя граница = Q3 + 1.5 * IQR`
+
+*где Q1 — первый квартиль (25-й перцентиль), Q3 — третий квартиль (75-й перцентиль), IQR = Q3 - Q1*
+
+Все объекты за этими границами считаются потенциальными выбросами.
 <!-- #endregion -->
 
 ```python editable=true slideshow={"slide_type": "slide"}
-# Швейцарский рулет
-from sklearn.datasets import make_swiss_roll
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
 
-X, color = make_swiss_roll(n_samples=800, random_state=123)
+# Настройка стиля
+plt.style.use('default')
+plt.rcParams['figure.figsize'] = [10, 8]
+plt.rcParams['font.size'] = 12
 
-%matplotlib widget
+# Создание данных с выбросами
+np.random.seed(42)
+data = np.concatenate([
+    np.random.normal(50, 10, 100),  # Основное распределение
+    [5, 95, 100, 3, 102, 110, 2]    # Выбросы
+])
 
-fig = plt.figure(figsize=plt.figaspect(0.3)*1)
+# Вычисление статистик
+q1 = np.percentile(data, 25)
+q3 = np.percentile(data, 75)
+iqr = q3 - q1
+median = np.median(data)
+lower_whisker = q1 - 1.5 * iqr
+upper_whisker = q3 + 1.5 * iqr
 
-ax1 = fig.add_subplot(1, 2, 1, projection='3d')
-ax1.xaxis.pane.fill = False
-ax1.yaxis.pane.fill = False
-ax1.zaxis.pane.fill = False
-ax1.scatter(X[:, 0], X[:, 1], X[:, 2], c=color, cmap=plt.cm.rainbow, s=15)
-plt.title('Швейцарский рулет')
+# Создание фигуры
+fig, ax = plt.subplots(figsize=(12, 10))
+
+# Создание boxplot
+boxplot = ax.boxplot(data, 
+                     orientation='horizontal', 
+                     whis=1.5, 
+                     patch_artist=True, 
+                     widths=1,
+                     manage_ticks=True,)
+
+# Настройка внешнего вида boxplot
+colors = {
+    'box': 'lightblue',
+    'median': 'red',
+    'whiskers': 'black',
+    'caps': 'black',
+    'fliers': 'red'
+}
+
+# Изменение цветов элементов boxplot
+boxplot['boxes'][0].set_facecolor(colors['box'])
+boxplot['boxes'][0].set_alpha(0.7)
+boxplot['boxes'][0].set_edgecolor('black')
+
+for whisker in boxplot['whiskers']:
+    whisker.set(color=colors['whiskers'], linewidth=2, linestyle='-')
+
+for cap in boxplot['caps']:
+    cap.set(color=colors['caps'], linewidth=2)
+
+for median_line in boxplot['medians']:
+    median_line.set(color=colors['median'], linewidth=3)
+
+for flier in boxplot['fliers']:
+    flier.set(marker='o', color=colors['fliers'], alpha=0.8, markersize=8, markeredgecolor='darkred')
+
+# Добавление линий и аннотаций для Q1, Q3, IQR
+# Линия и аннотация для Q1
+ax.axvline(x=q1, color='green', linestyle='--', alpha=0.7, linewidth=2)
+ax.annotate(f'Q1 = {q1:.1f}', xy=(q1, 1.15), xytext=(q1, 1.25),
+           arrowprops=dict(arrowstyle='->', color='green', lw=1.5),
+           fontsize=12, color='darkgreen', ha='center',
+           bbox=dict(boxstyle="round,pad=0.3", fc="lightgreen", ec="green", alpha=0.8))
+
+# Линия и аннотация для Q3
+ax.axvline(x=q3, color='blue', linestyle='--', alpha=0.7, linewidth=2)
+ax.annotate(f'Q3 = {q3:.1f}', xy=(q3, 1.15), xytext=(q3, 1.25),
+           arrowprops=dict(arrowstyle='->', color='blue', lw=1.5),
+           fontsize=12, color='darkblue', ha='center',
+           bbox=dict(boxstyle="round,pad=0.3", fc="lightblue", ec="blue", alpha=0.8))
+
+# Линия и аннотация для медианы
+ax.axvline(x=median, color='red', linestyle='--', alpha=0.7, linewidth=2)
+ax.annotate(f'Медиана = {median:.1f}', xy=(median, 0.85), xytext=(median, 0.75),
+           arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+           fontsize=12, color='darkred', ha='center',
+           bbox=dict(boxstyle="round,pad=0.3", fc="lightcoral", ec="red", alpha=0.8))
+
+# Подсветка области IQR
+ax.axvspan(q1, q3, alpha=0.2, color='orange', ymin=0.4, ymax=0.6)
+ax.annotate(f'IQR = Q3 - Q1 = {iqr:.1f}', xy=((q1+q3)/2, 0.5), xytext=((q1+q3)/2, 0.65),
+           fontsize=14, color='darkorange', ha='center', fontweight='bold',
+           bbox=dict(boxstyle="round,pad=0.3", fc="wheat", ec="orange", alpha=0.9))
+
+# Аннотации для выбросов
+outliers = [x for x in data if x < lower_whisker or x > upper_whisker]
+for i, outlier in enumerate(outliers[:3]):  # Аннотируем первые 3 выброса
+    ax.annotate('Выброс', xy=(outlier, 1.0), xytext=(outlier, 1.1),
+               arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+               fontsize=11, color='darkred', ha='center',
+               bbox=dict(boxstyle="round,pad=0.3", fc="lightcoral", ec="red", alpha=0.8))
+
+# Линии и аннотации для усов
+#ax.axvline(x=lower_whisker, color='purple', linestyle=':', alpha=0.7, linewidth=2)
+#ax.axvline(x=upper_whisker, color='purple', linestyle=':', alpha=0.7, linewidth=2)
+
+ax.annotate(f'Нижний ус\nQ1 - 1.5×IQR = {lower_whisker:.1f}', 
+           xy=(lower_whisker, 1.0), xytext=(lower_whisker-15, 1.2),
+           arrowprops=dict(arrowstyle='->', color='purple', lw=1.5),
+           fontsize=11, color='darkviolet', ha='center',
+           bbox=dict(boxstyle="round,pad=0.3", fc="plum", ec="purple", alpha=0.8))
+
+ax.annotate(f'Верхний ус\nQ3 + 1.5×IQR = {upper_whisker:.1f}', 
+           xy=(upper_whisker, 1.0), xytext=(upper_whisker+15, 1.2),
+           arrowprops=dict(arrowstyle='->', color='purple', lw=1.5),
+           fontsize=11, color='darkviolet', ha='center',
+           bbox=dict(boxstyle="round,pad=0.3", fc="plum", ec="purple", alpha=0.8))
+
+# Настройка осей и заголовка
+ax.set_xlabel('Значения', fontsize=14, fontweight='bold')
+ax.set_title('Диаграмма Boxplot с аннотациями\nQ1, Q3, IQR и выбросы', 
+             fontsize=16, fontweight='bold', pad=20)
+ax.set_yticks([1])
+ax.set_yticklabels(['Данные'])
+ax.grid(True, alpha=0.3, linestyle='--')
+ax.set_xlim(-5, 120)
+#ax.set_xticks([1,10, lower_whisker, median, upper_whisker, q1, q3])
+
+# Добавление легенды
+legend_elements = [
+    plt.Line2D([0], [0], color='green', linestyle='--', linewidth=2, label='Q1 (25-й перцентиль)'),
+    plt.Line2D([0], [0], color='blue', linestyle='--', linewidth=2, label='Q3 (75-й перцентиль)'),
+    plt.Line2D([0], [0], color='red', linestyle='--', linewidth=2, label='Медиана'),
+    plt.Line2D([0], [0], color='purple', linestyle=':', linewidth=2, label='Усы (1.5×IQR)'),
+    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=8, label='Выбросы'),
+    patches.Patch(facecolor='orange', alpha=0.3, label='IQR (Interquartile Range)')
+]
+
+ax.legend(handles=legend_elements, loc='upper right', fontsize=11, framealpha=0.9)
+
+# Добавление информационной панели
+info_text = f'''Статистика:
+- Q1 (25-й перцентиль): {q1:.1f}
+- Q3 (75-й перцентиль): {q3:.1f}
+- IQR (Interquartile Range): {iqr:.1f}
+- Медиана: {median:.1f}
+- Нижний ус: {lower_whisker:.1f}
+- Верхний ус: {upper_whisker:.1f}
+- Обнаружено выбросов: {len(outliers)}'''
+
+ax.text(0.02, 0.98, info_text, transform=ax.transAxes, fontsize=11,
+        verticalalignment='top', bbox=dict(boxstyle="round,pad=0.5", fc="lightgray", ec="gray", alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+
+# Дополнительная информация в консоли
+print("Статистика boxplot:")
+print(f"Q1 (25-й перцентиль): {q1:.2f}")
+print(f"Q3 (75-й перцентиль): {q3:.2f}")
+print(f"IQR: {iqr:.2f}")
+print(f"Медиана: {median:.2f}")
+print(f"Нижний ус (Q1 - 1.5×IQR): {lower_whisker:.2f}")
+print(f"Верхний ус (Q3 + 1.5×IQR): {upper_whisker:.2f}")
+print(f"Количество выбросов: {len(outliers)}")
 ```
 
-```python editable=true slideshow={"slide_type": "skip"}
-#plt.close()
+<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+### Инструменты для работы: `feature-engine`
+
+Библиотека `feature-engine` предоставляет удобные инструменты для обработки выбросов.
+
+**Пример кода:**
+```python
+from feature_engine.outliers import Winsorizer
+
+# Инициализация метода IQR
+winsorizer = Winsorizer(capping_method='iqr', tail='both', fold=1.5)
+
+# Обучение и преобразование данных
+X_train_clean = winsorizer.fit_transform(X_train)
+
+# Выбросы будут заменены на граничные значения
 ```
-
-```python editable=true slideshow={"slide_type": "slide"}
-from mpl_toolkits.mplot3d import Axes3D
-
-def plot_dimensionality_reducertion(X, X_reduced, title_3D='',  title_2D=''):
-    '''Построитель преообразования 3D данных в 2D'''
-
-    fig = plt.figure(figsize=plt.figaspect(0.3)*1)
-
-    # 3D
-    ax1 = fig.add_subplot(1, 2, 1, projection='3d')
-    ax1.xaxis.pane.fill = False
-    ax1.yaxis.pane.fill = False
-    ax1.zaxis.pane.fill = False
-    ax1.scatter(X[:, 0], X[:, 1], X[:, 2], c=color, cmap=plt.cm.rainbow, s=15)
-    plt.title(title_3D)
-
-    #2D
-    ax2 = fig.add_subplot(1, 2, 2)
-    plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=color, cmap=plt.cm.rainbow)
-    plt.title(title_2D);
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-# Метод главных компонент
-from sklearn.decomposition import PCA
-plt.close()
-%matplotlib inline
-
-pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X)
-plot_dimensionality_reducertion(X=X, X_reduced=X_pca, title_3D='"Швейцарский рулет" 3D', title_2D='Метод главных компонент')
-```
-
-```python editable=true slideshow={"slide_type": "slide"}
-from sklearn.manifold import locally_linear_embedding
-
-X_lle, err = locally_linear_embedding(X, n_neighbors=12, n_components=2)
-plot_dimensionality_reducertion(X=X, X_reduced=X_lle, title_3D='"Швейцарский рулет" 3D', title_2D='Линейное уменьшение размерности')
-```
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Обучение с подкреплением
-
-- Разработать агента, который улучшает свои характеристики на основе взаимодействия с окружающей средой
-  + Пример: шахматы, го, беспилотные автомобили, ...
-- Поиск в (большом) пространстве действий и состояний
-- **Функция вознаграждения** (**reward function**) определяет, насколько хорошо работает (серия) действие
-- Обучение действиям (стратегии), которые максимизируют вознаграждение за исследование
+*   **`capping_method`**: `'iqr'` или `'gaussian'` (правило 3-х сигм).
+*   **`tail`**: на каких «хвостах» искать (`'left'`, `'right'`, `'both'`).
+*   **`fold`**: коэффициент (для IRR обычно 1.5).
 <!-- #endregion -->
 
 <!-- #region editable=true slideshow={"slide_type": "slide"} -->
-<img src="./img/reinforcement_learning.png" alt="ml" style="width: 80%;"/>
+### Рекомендации
+
+1.  **Анализ выбросов — обязательный этап** предобработки данных.
+2.  **Всегда исследуйте природу выбросов** перед удалением: это ошибка или ценная аномалия?
+3.  **Начинайте с простых методов** (IQR, Z-score) и визуализации.
+4.  Для сложных случаев переходите к **многомерным методам**.
+5.  Используйте специализированные библиотеки (например, `feature-engine`, `scikit-learn`), чтобы автоматизировать процесс.
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Обучение = Представление + оценка + оптимизация
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+## Заполнение пропусков в данных (Missing Data Imputation)
 
-Все алгоритмы машинного обучения состоят из 3 компонентов:
+**Пропущенные значения (Missing Values)** — отсутствие данных для некоторых признаков у отдельных объектов.
 
-- **Представление** (**Representation**): Модель $f_{\theta}$ должна быть представлена на формальном языке, с которым может работать компьютер.
-  + Определяет &laquo;концепции&raquo;, которые он может усвоить, *пространство гипотез*
-  + Например, дерево решений, нейронная сеть, набор аннотированных точек данных
-- **Оценка** (**Evaluation**): *внутренний* способ выбора одной гипотезы среди других
-  + Целевая функция, функция подсчета очков, функция потерь, ...
-  + Например, разница между правильным выводом и прогнозами
-- **Оптимизация** (**Optimization**): *эффективный* способ поиска в пространстве гипотез
-  + Начните с простой гипотезы, расширьте (ослабьте), если она не соответствует данным.
-  + Начните с начального набора параметров модели, постепенно уточняйте их.
-  + Множество методов, различающихся скоростью обучения, количеством оптимумов, ...
-    
-Модель полезна только в том случае, если ее можно эффективно оптимизировать
+**Причины возникновения:**
+- Человек не заполнил поле в анкете
+- Неразборчиво заполненные данные
+- Сбои оборудования при сборе данных
+- Технические ошибки при передаче данных
 
+**Проблема:** Большинство моделей машинного обучения требуют полный вектор признаков без пропусков.
 
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Нейронные сети
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Базовые стратегии обработки
 
-Возьмем в качестве примера (многослойную) нейронную сеть
+**1. Удаление объектов**
+- Удалить все строки с пропущенными значениями
+- **Подходит:** когда пропусков мало (<5% данных)
+- **Не подходит:** когда пропусков много → потеря информации
 
-- каждое соединение (ребро) имеет *вес* $\omega_i$ (т.е. параметры модели)
-- каждый узел получает взвешенные входные данные, выдает новое значение
-- модель $f$ возвращает выход последнего слоя
-- Архитектура сети &mdash; набор *гиперпараметров* (*hyperparameters*) $\theta$, таких как количество/тип нейронов и т.д. устанавливаются пользователем и фиксируются во время обучения
+**2. Заполнение значений (Imputation)**
+- Заменить пропуски осмысленными значениями
+- **Обязательно:** когда пропусков много
+- **Требует:** выбора правильного метода заполнения
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-<img src="./img/nn_basic_arch.png" alt="ml" style="width: 60%;"/>
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Методы для категориальных признаков
+
+**Категориальные признаки:** марка машины, профессия, город и т.д.
+
+**1. Заполнение модой**
+```python
+# Самая частая категория
+df['category'].fillna(df['category'].mode()[0])
+```
+- **Плюсы:** Простота
+- **Минусы:** Может исказить распределение
+
+**2. Новая категория "[пропуск]"**
+```python
+df['category'].fillna('[пропуск]')
+```
+- **Плюсы:** Сохраняет информацию о пропуске
+- **Минусы:** Увеличивает размерность
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Нейронные представление, оценка и оптимизация
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Продвинутые методы для категориальных признаков
 
-- Представление: учитывая архитектуру, модель представлена ее параметрами
-  + Рассмотрим мини-сеть с двумя весами $(\omega_1, \omega_2)$: двумерное пространство поиска
-- Оценка: *функция потерь* $\mathcal{L}_\theta(\omega) = \mathcal{L}_\theta(\omega_1, \omega_2)$ вычисляет, насколько хороши прогнозы
-  + вычисляется на наборе обучающих данных с &laquo;правильными ответами&raquo; 
-  +  вся поверхность поиска не видна, можно лишь оценивать определенные наборы параметров
-- Оптимизация: необходимо найти оптимальный набор параметров (при фиксированном выборе гиперпараметров)
-  +  обычно используется *поиск* в пространстве гипотез
-  + Например, градиентный спуск: $\omega_i^{new} = \omega_i - \frac{\partial \mathcal{L}_\theta(\omega) }{\partial \omega_i} $
+**3. Предсказание классификатором**
+```python
+from sklearn.ensemble import RandomForestClassifier
 
-<img src="./img/ml3.png" alt="ml" style="float: left; width: 80%;"/>
+# Обучаем модель предсказывать пропущенные значения
+model = RandomForestClassifier()
+model.fit(X_known, y_known)
+predictions = model.predict(X_missing)
+```
+
+**Преимущества:**
+- Учитывает взаимосвязи между признаками
+- Более точное заполнение
+- Адаптивное поведение
+
+**Пример:** Предсказание города по месту работы
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Переобучение и недообучение 
-- Легко построить сложную модель, которая будет на 100% точной на обучающих данных, но очень плохой на новых данных.
-- Переобучение (overfitting): построение модели, которая *слишком сложна для имеющнгося объема данных*.
-  + Моделируются особенности обучающих данных (шум, смещения, ...)
-  + решение: упростить модель, использовать регуляризацию или получить больше данных
-  + **большинство алгоритмов имеют гиперпараметры, которые допускают регуляризацию**
-- Недообучение (underfitting): построение модели, которая *слишком проста, учитывая сложность данных*
-  +  решение: использование более сложной модели
-- Существуют методы обнаружения переобучения (например, анализ смещения-дисперсии)
-- можно создавать *ансамбли* (*ensembles*) из многих моделей, чтобы преодолеть как недообучение, так и переобучение
-- Часто необходимо найти золотую середину: оптимизировать выбор алгоритмов и гиперпараметров или использовать больше данных
-- Пример: регрессия с использованием полиномиальных функций
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Методы для вещественных признаков
+
+**Вещественные признаки:** зарплата, возраст, температура и т.д.
+
+**1. Заполнение средним значением**
+```python
+df['numeric'].fillna(df['numeric'].mean())
+```
+- **Чувствительно** к выбросам
+
+**2. Заполнение медианой**
+```python
+df['numeric'].fillna(df['numeric'].median())
+```
+- **Устойчиво** к выбросам
+- **Рекомендуется** по умолчанию
 <!-- #endregion -->
 
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import PolynomialFeatures
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Медиана более устойчива к выбросам!
+
+<!-- #endregion -->
+
+```python editable=true slideshow={"slide_type": "fragment"}
+import numpy as np
+
+# Нормальные данные
+data = np.array([10, 12, 14, 15, 16, 18, 20])
+print(f"Среднее: {data.mean():.1f}, Медиана: {np.median(data)}")
+
+# Добавляем выброс
+data_with_outlier = np.append(data, 100)
+print(f"Среднее: {data_with_outlier.mean():.1f}, Медиана: {np.median(data_with_outlier)}")
+```
+
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Условное заполнение и продвинутые методы
+
+**Условное среднее/медиана**
+```python
+# Заполнение медианой по группам
+df['salary'] = df.groupby('profession')['salary'].transform(
+    lambda x: x.fillna(x.median()))
+```
+
+**Предсказание регрессией**
+```python
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_score
 
-def cos(X):
-    return np.cos(1.5 * np.pi * X)
+# Предсказание пропущенного значения по другим признакам
+model = LinearRegression()
+model.fit(X_known, y_known)
+predictions = model.predict(X_missing)
+```
+<!-- #endregion -->
 
-def plot_polynomial_regression(X, y, true_func, degrees):
-    polynomial_features = PolynomialFeatures(
-        degree=degrees,
-        include_bias=False
-    )
-    linear_regression = LinearRegression()
-    pipeline = Pipeline([("polynomial_features", polynomial_features),
-                         ("linear_regression", linear_regression)])
-    pipeline.fit(X[:, np.newaxis], y)
+<!-- #region editable=true slideshow={"slide_type": "slide"} jp-MarkdownHeadingCollapsed=true -->
+### Индикаторы пропусков
 
-    # Оценка модели с помощью перекрестной проверки
-    scores = cross_val_score(pipeline, X[:, np.newaxis], y,
-                             scoring="neg_mean_squared_error", cv=10)
-    scores_x.append(degrees)
-    scores_y.append(-scores.mean())
+**Создание дополнительного признака**
+```python
+# Создаем индикатор пропуска
+df['age_missing'] = df['age'].isna().astype(int)
 
-
-    X_test = np.linspace(np.min(X), np.max(X), 100)
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 6))
-    ax1.plot(X_test, pipeline.predict(X_test[:, np.newaxis]), label="Модель")
-    ax1.plot(X_test, true_func(X_test), label="Истиная функция")
-    ax1.scatter(X, y, edgecolor='b', label="Точки набора данных")
-    ax1.set_xlabel("x")
-    ax1.set_ylabel("y")
-    ax1.set_xlim((0, 1))
-    ax1.set_ylim((-2, 2))
-    ax1.legend(loc="best")
-    ax1.set_title(f"Степень полинома {degrees}\nMSE = {-scores.mean():.2e}(+/- {scores.std():.2e})")
-
-    # Ошибки
-    ax2.scatter(scores_x, scores_y, edgecolor='b')
-    order = np.argsort(scores_x)
-    ax2.plot(np.array(scores_x)[order], np.array(scores_y)[order], label="Ошибка на тестовых данных")
-    ax2.set_xlim((0, 30))
-    ax2.set_ylim((10**-2, 10**11))
-    ax2.set_xlabel("Степень полинома")
-    ax2.set_ylabel("Ошибка", labelpad=0)
-    ax2.set_yscale("log")
-    ax2.legend(loc="best")
-    ax2.set_title("Ошибка методом перекрестной проверки")
+# Заполняем пропуски
+df['age'] = df['age'].fillna(df['age'].median())
 ```
 
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-from IPython.display import clear_output
-from ipywidgets import IntSlider, Output
+**Преимущества:**
+- Модель узнает о факте пропуска
+- Может по-разному обрабатывать настоящие и заполненные значения
+- Улучшает качество модели
+<!-- #endregion -->
 
-np.random.seed(0)
-n_samples = 30
-X4 = np.sort(np.random.rand(n_samples))
-y4 = cos(X4) + np.random.randn(n_samples) * 0.1
-X4_test = np.linspace(0, 1, 100)
-scores_x, scores_y = [], []
+<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+### Инструменты и библиотеки
 
-
-for d in range(1,31):
-    plot_polynomial_regression(X=X4, y=y4, true_func=cos, degrees=d)
+**Pandas** - базовые операции
+```python
+df.fillna()          # Простое заполнение
+df.interpolate()     # Интерполяция
 ```
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Выбор модели (Model selection)
-- Наряду с (внутренней) функцией потерь нужна (внешняя) функция оценки
-  + Сигнал обратной связи: действительно ли мы учимся правильным вещам?
-    * Модель недоучена/переобучена?
-  + Тщательный выбор модели, чтобы соответствовать области применения.
-  + Необходимость выбора между моделями (и настройками гиперпараметров)
-<img src="./img/xkcd1.png" alt="ml" style="width: 45%; margin: 10px; float:left" />
+**Scikit-learn** - продвинутые методы
+```python
+from sklearn.impute import SimpleImputer, KNNImputer
 
-<img src="./img/xkcd2.png" alt="ml" style="width: 45%; margin: 10px;" />
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Разделение набора данных
-
-- Данные необходимо разделить на **обучающие** (**train**) и **тестовые** (**test**) наборы
-  + Оптимизация параметров модели на обучающем наборе, оценка на независимом тестовом наборе
-- Опасность **утечки данных** (**data leakage**):
-  + Нельзя следует оптимизировать настройки гиперпараметров на тестовых данных
-  + Нельзя выбирать методы предварительной обработки на основе тестовых данных
-- Для оптимизации гиперпараметров и предварительной обработки выделяется часть обучающего набора в качестве **проверочного** (**validation**) набора.
-  + Необходимо сохранять тестовый набор скрытым во время *всего* обучения
-<!-- #endregion -->
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-import mglearn
-mglearn.plots.plot_threefold_split()
+SimpleImputer(strategy='mean')    # Простое заполнение
+KNNImputer()                      # K-ближайших соседей
 ```
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Обучение модели
-- Обучение: подбор параметров модели на обучающем наборе для заданной настройки гиперпараметров 
-  + Минимизировать потери
-- Оценка обученной модели на проверочном наборе
-  + Настройка гиперпараметров для максимизации определенной метрики (например, точности)
-
-<img src="./img/hyperparams.png" alt="ml" style="width: 80%;"/>
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Обобщающая способность модели
-- Нельзя оценивать окончательные модели на основе обучающих данных, за исключением следующих случаев:
-  + Отслеживание сходимости оптимизатора (кривые обучения)
-  + Диагностика недообучения/переобучения:
-    * Низкие результаты обучения и тестирования: недообучение
-    * Высокий результат обучения, низкий результат тестирования: переобучение
-- Должен быть полностью независимый набор для тестов
-- Для небольших наборов данных можно использовать несколько способов разделений на обучающие и тестовые данные, чтобы избежать смещения выборки.
-  + Случайно выбрать небольшой тестовый набор
-  + Использовать перекрестную проверку (cross-validation)
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Лучшее представление данных, лучшие модели
-- Алгоритм должен правильно преобразовывать входные данные в правильные выходные данные
-- Многое зависит от того, как представить данные алгоритму
-- Преобразование данных для лучшего представления: **кодирование** (**encoding**) или **эмбеддинг** (**embedding**)
-- Может быть реализовано сквозным методом (например, глубокое обучение) или путем предварительной &laquo;предварительной обработки&raquo; данных (например, выбор/генерация признаков)
-
-<img src="./img/representation.png" alt="ml" style="width: 80%"/>
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Конструирование признаков (Feature engineering)
-
-- Большинству методов машинного обучения требуется хорошее представление данных, осуществляемое &laquo;вручную&raquo;
-
-- Для структурированных данных (таблицы, json, ...):
-  + Выбор признаков, уменьшение размерности, масштабирование, ...
-- Для неструктурированных данных (например, изображений, текста) сложно извлечь  полезные признаки
-- Для глубокого обучения: эмбеддинг данных
-  + Каждый слой немного преобразует данные, чтобы уменьшить ошибку
-- Ничто не сравнится со знанием предметной области (если оно доступно) для получения хорошего представления
--  *Прикладное машинное обучение по сути является конструированием признаков (Эндрю Нг)*
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Проклятие размерности
-- Просто добавить много функций и позволить модели разобраться с ними самостоятельно не получится
-- Предположения (индуктивные предубеждения) часто не оправдываются в больших размерностях:
-  + Случайным образом выбирать точки в n-мерном пространстве (например, единичном гиперкубе)
-  + Почти все точки становятся выбросами на краю пространства
-  + Расстояния между любыми двумя точками станут почти одинаковыми
-<!-- #endregion -->
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Почти все точки становятся выбросами на краю пространства
-def get_points(dimension=2, count=100):
-    '''Генератор набора точек'''
-    return [[np.random.uniform(0., 1.) for i in range(dimension)] for _ in range(count)]
-
-def one_percent_hull(points):
-    '''Доля точек, попадающих в оболочку толщиной 1%'''
-    return np.mean([any([(dim < .01 or dim > .99) for dim in point]) for point in points])
-
-dimensions = range(1,201)
-plt.figure(figsize=(8, 6))
-
-plt.plot(dimensions, [one_percent_hull(get_points(dimension=dim, count=100)) for dim in dimensions])
-plt.xlabel("Количество измерений")
-plt.ylabel("Доля точек, попадающих в оболочку толщиной 1%");
+**Feature-engine** - специализированные методы
+```python
+from feature_engine.imputation import ArbitraryNumberImputer
 ```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-# Расстояния между любыми двумя точками станут почти одинаковыми
-
-import scipy.spatial
-
-def get_points(dimension=2, count=100):
-    '''Генератор набора точек'''
-    return [[np.random.uniform(0., 1.) for i in range(dimension)] for _ in range(count)]
-
-dimensions = range(1,20)
-
-min_distance = []
-mean_distance = []
-max_distance = []
-
-
-for dim in (dimensions := range(2, 200)):
-    points = np.array(get_points(dim, count=100))
-    distances = scipy.spatial.distance.cdist(points,points,'euclidean')
-
-    min_distance.append(np.min(distances[np.nonzero(distances)]))
-    mean_distance.append(np.mean(distances))
-    max_distance.append(np.max(distances[np.nonzero(distances)]))
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-plt.figure(figsize=(8, 6))
-
-plt.plot(dimensions, np.array(min_distance)/np.array(mean_distance), label='Отношение минимального расстояния к среднему')
-
-plt.xlabel("Количество измерений")
-plt.ylabel("Отношение расстояний");
-plt.legend();
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-plt.figure(figsize=(8, 6))
-
-plt.plot(dimensions, np.array(max_distance)/np.array(mean_distance), label='Отношение максимального расстояния к среднему')
-
-plt.xlabel("Количество измерений")
-plt.ylabel("Отношение расстояний");
-plt.legend();
-```
-
-```python tags=["hide-input"] editable=true slideshow={"slide_type": "slide"}
-plt.figure(figsize=(8, 6))
-
-plt.plot(dimensions, np.array(min_distance)/np.array(max_distance), label='Отношение минимального расстояния к максимальному')
-
-plt.xlabel("Количество измерений")
-plt.ylabel("Отношение расстояний");
-plt.legend();
-```
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-#### Практические следствия
-- Для каждого добавляемого измерения (признака) необходимо экспоненциально больше данных, чтобы избежать разреженности
-- Влияет на любой алгоритм, основанный на расстояниях (например, kNN, SVM, ядерные методы, методы на основе деревьев, ...)
-- Благословение неоднородности: во многих приложениях данные находятся в очень маленьком подпространстве
-- Можно значительно улучшить производительность, выбрав функции или используя представления данных с меньшим числом измерений (признаков)
 <!-- #endregion -->
 
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Больше данных или более умный алгоритм? 
+<!-- #region editable=true slideshow={"slide_type": "slide"} -->
+### Рекомендации и лучшие практики
 
-Нужно и то и другое
-
-- Больше данных &mdash; меньше вероятность переобучения
-- Менее разреженные данные уменьшают проклятие размерности
-- *Непараметрические* модели: количество параметров модели растет с объемом данных
-  + Методы на основе деревьев, k-ближайших соседей, SVM,...
-  + Они могут изучить любую модель при наличии достаточных данных (но могут застрять в локальных минимумах)
-- *Параметрические* (фиксированного размера) модели: фиксированное количество параметров модели
-  + Линейные модели, нейронные сети, ...
-  + Можно задать огромное количество параметров, чтобы извлечь пользу из большего количества данных
-  + Модели глубокого обучения могут иметь миллионы весов, обучаться практически любой функции.
-- Узкое место: смещение от данных к вычислениям/масштабируемости.
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Создание систем машинного обучения
-Типичная система машинного обучения состоит из нескольких компонентов:
-    
-- Предварительная обработка: необработанные данные редко подходят для обучения
-  + Масштабирование: приведение значений в один диапазон
-  + Кодирование: преобразование категориальных признаков в числовые
-  + Дискретизация: преобразоавание числовых характеристик в категориальные
-  + Коррекция дисбаланса меток (например, понижение частоты дискретизации)
-  + Выбор признаков: удаление неинтересных/коррелированных признаков
-  + Уменьшение размерности также может облегчить изучение данных
-  + Использование предварительно обученных эмбеддингов (например, word-to-vector, image-to-vector)
-- Обучение и оценка
-  + Каждый алгоритм имеет смещение
-  + Ни один алгоритм не является лучшим для всех задач
-  + *Выбор модели* сравнивает и выбирает лучшие модели
-    * Разные алгоритмы, разные настройки гиперпараметров
-  + Разделение данных на обучающие, проверочные и тестовые наборы  
-- Прогноз
-  + Окончательно оптимизированная модель может быть использована для прогнозирования
-  + Ожидаемая качество модели &mdash;  это качество, измеренное на *независимом* тестовом наборе
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-### Рабочий конвейер
-
-Предварительная обработка, обучение, оценка и прогноз образуют *рабочий конвейер* (*workflow of pipeline*)
-
-- Существуют методы машинного обучения для автоматического построения и настройки этих конвейеров
-- Необходимо постоянно оптимизировать конвейеры
-  + **Дрейф концепций** (**Concept drift**): моделируемое явление, может меняться со временем
-  + **Обратная связь** (**Feedback**): прогнозы модели могут изменить будущие данные
-
-<img src="./img/pipeline.png" alt="ml" style="width: 80%"/>
-<!-- #endregion -->
-
-<!-- #region slideshow={"slide_type": "slide"} editable=true -->
-## Заключение
-- Алгоритмы обучения содержат 3 компонента:
-  + Представление: модель $f$, которая сопоставляет входные данные $X$ с желаемыми выходными данными $y$
-    * Содержит параметры модели $\omega$, которые можно подогнать под данные $X$
-  + Функция потерь $\mathcal{L}(f_{\theta}(\omega, X))$: измеряет, насколько хорошо модель соответствует данным
-  + Метод оптимизации для поиска оптимального $\omega$: $\underset{\omega}{\operatorname{argmin}} \mathcal{L}(f_{\theta}(\omega, X))$
-- Выбор правильной модели, затем подгонка ее под данные, чтобы минимизировать ошибку, специфичную для задачи $\mathcal{E}$
-  + Индуктивное смещение $b$: предположения о модели и гиперпараметрах
-$\underset{\theta,b}{\operatorname{argmin}} \mathcal{E}(f_{\theta}(\omega, b, X))$
-- Переобучение: модель хорошо соответствует тренировочным данным, но не новым (тестовым) данным.
-  + Разделение данных на несколько частей: обучение-проверка-тест
-  + Регуляризация: настройка гиперпараметров (на проверочном наборе) для упрощения модели
-  + Сбор больше данных или создание ансамблей моделей
-- *Конвейеры* машинного обучения: предварительная обработка + обучение + развертывание
+1. **Всегда анализируйте** природу пропусков перед заполнением
+2. **Создавайте индикаторы** пропущенных значений
+3. **Используйте медиану** вместо среднего для вещественных признаков
+4. **Для категориальных данных** создавайте отдельную категорию
+5. **Тестируйте разные методы** на ваших данных
+6. **Документируйте** процесс обработки пропусков
 <!-- #endregion -->
