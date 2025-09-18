@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.16.7
+      jupytext_version: 1.17.3
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -18,9 +18,9 @@ jupyter:
 
 Продолжительность работы: - 4 часа.
 
-Мягкий дедлайн (10 баллов): 22.09.2025
+Мягкий дедлайн (10 баллов): 25.09.2025
 
-Жесткий дедлайн (5 баллов): 29.09.2025
+Жесткий дедлайн (5 баллов): 02.10.2025
 
 Оценка за каждое задание указана в комментариях перед заданием.
 
